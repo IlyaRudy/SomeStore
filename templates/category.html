@@ -1,0 +1,241 @@
+{% extends "base.html" %}
+
+
+{% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
+
+
+  {% block content %}
+  <!-- main content -->
+  <main class="container mt-5 mt-md-3 p-sm-0" id="category">
+    <div class="nav-category container">
+      <div class="row category-nav-name">
+        <div class="col-auto">
+          <a href="#">CategoryParent</a><i class="bi bi-chevron-right text-dark"></i><a href="#">CategoryChild</a><i class="bi bi-chevron-right text-dark"></i><a href="#">CategoryChild</a>
+        </div>
+      </div>
+      <div class="row category-big-name">
+        <div class="col-auto"><h1>CategoryName</h1></div>
+      </div>
+      <div class="row category-nav-name-buttons justify-content-between">
+        <div class="col-auto">
+          <button>category1</button>
+        </div>
+        <div class="col-auto">
+          <button>category2</button>
+        </div>
+        <div class="col-auto">
+          <button>category3</button>
+        </div>
+        <div class="col-auto">
+          <button>category4</button>
+        </div>
+        <div class="col-auto">
+          <button>category5</button>
+        </div>
+        <div class="col-auto">
+          <button>category6</button>
+        </div>
+        <div class="col-auto">
+          <button>category7</button>
+        </div>
+        <div class="col-auto">
+          <button>category8</button>
+        </div>
+        <div class="col-auto">
+          <button>category9</button>
+        </div>
+        <div class="col-auto">
+          <button>category10</button>
+        </div>
+        <div class="col-auto">
+          <button>category11</button>
+        </div>
+      </div>
+    </div>
+    <div class="container main_cards">
+      <div class="row">
+        <div class="col-12 col-lg-3 col-sm-6">
+          <div class="product-card">
+            <a href="#" class="text-decoration-none text-dark">
+              <div class="product-thumb">
+                <div class="product-img"><img src="{{ STATIC_PREFIX }}img/cards/iPhone12.png" alt="iPhone12"></div>
+                <a href="#" class="text-decoration-none text-dark"><i class=" bi bi-heart" id="icon-heart"></i></a>
+                <div class="modal-quick-view">
+                  <button type="button" data-bs-toggle="modal" data-bs-target="#modal-quick-view">
+                    szybki podgląd
+                  </button>
+                </div>
+              </div>
+              <div class="product-details">
+                <h5 class="price">13 000 zł</h5>
+                <a href="#" class="card-title text-decoration-none">Apple iPhone 14 Pro Max 256 GB, złoty</a>
+              </div>
+            </a>
+            <div class="product-bottom-details text-center p-1">
+              <button class="card-add">Dodaj do koszyka</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-3 col-sm-6">
+          <div class="product-card">
+            <a href="#" class="text-decoration-none text-dark">
+              <div class="product-thumb">
+                <div class="product-img"><img src="{{ STATIC_PREFIX }}img/cards/iPhone12.png" alt="iPhone12"></div>
+                <a href="#" class="text-decoration-none text-dark"><i class="bi bi-heart"></i></a>
+                <div class="modal-quick-view">
+                  <button type="button" data-bs-toggle="modal" data-bs-target="#modal-quick-view">
+                    szybki podgląd
+                  </button>
+                </div>
+              </div>
+              <div class="product-details">
+                <h5 class="price">13 000 zł</h5>
+                <a href="#" class="card-title text-decoration-none">Apple iPhone 14 Pro Max 256 GB, złoty</a>
+              </div>
+            </a>
+            <div class="product-bottom-details text-center p-1">
+              <button class="card-add">Dodaj do koszyka</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-3 col-sm-6">
+          <div class="product-card">
+            <a href="#" class="text-decoration-none text-dark">
+              <div class="product-thumb">
+                <div class="product-img"><img src="{{ STATIC_PREFIX }}img/cards/iPhone12.png" alt="iPhone12"></div>
+                <a href="#" class="text-decoration-none text-dark"><i class=" bi bi-heart" id="icon-heart"></i></a>
+                <div class="modal-quick-view">
+                  <button type="button" data-bs-toggle="modal" data-bs-target="#modal-quick-view">
+                    szybki podgląd
+                  </button>
+                </div>
+              </div>
+              <div class="product-details">
+                <h5 class="price">13 000 zł</h5>
+                <a href="#" class="card-title text-decoration-none">Apple iPhone 14 Pro Max 256 GB, złoty</a>
+              </div>
+            </a>
+            <div class="product-bottom-details text-center p-1">
+              <button class="card-add">Dodaj do koszyka</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-3 col-sm-6">
+          <div class="product-card">
+            <a href="#" class="text-decoration-none text-dark">
+              <div class="product-thumb">
+                <div class="product-img"><img src="{{ STATIC_PREFIX }}img/cards/iPhone12.png" alt="iPhone12"></div>
+                <a href="#" class="text-decoration-none text-dark"><i class=" bi bi-heart" id="icon-heart"></i></a>
+                <div class="modal-quick-view">
+                  <button type="button" data-bs-toggle="modal" data-bs-target="#modal-quick-view">
+                    szybki podgląd
+                  </button>
+                </div>
+              </div>
+              <div class="product-details">
+                <h5 class="price">13 000 zł</h5>
+                <a href="#" class="card-title text-decoration-none">Apple iPhone 14 Pro Max 256 GB, złoty</a>
+              </div>
+            </a>
+            <div class="product-bottom-details text-center p-1">
+              <button class="card-add">Dodaj do koszyka</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-lg-3 col-sm-6">
+          <div class="product-card">
+            <a href="#" class="text-decoration-none text-dark">
+              <div class="product-thumb">
+                <div class="product-img"><img src="{{ STATIC_PREFIX }}img/cards/iPhone12.png" alt="iPhone12"></div>
+                <a href="#" class="text-decoration-none text-dark"><i class=" bi bi-heart" id="icon-heart"></i></a>
+                <div class="modal-quick-view">
+                  <button type="button" data-bs-toggle="modal" data-bs-target="#modal-quick-view">
+                    szybki podgląd
+                  </button>
+                </div>
+              </div>
+              <div class="product-details">
+                <h5 class="price">13 000 zł</h5>
+                <a href="#" class="card-title text-decoration-none">Apple iPhone 14 Pro Max 256 GB, złoty</a>
+              </div>
+            </a>
+            <div class="product-bottom-details text-center p-1">
+              <button class="card-add">Dodaj do koszyka</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-3 col-sm-6">
+          <div class="product-card">
+            <a href="#" class="text-decoration-none text-dark">
+              <div class="product-thumb">
+                <div class="product-img"><img src="{{ STATIC_PREFIX }}img/cards/iPhone12.png" alt="iPhone12"></div>
+                <a href="#" class="text-decoration-none text-dark"><i class=" bi bi-heart" id="icon-heart"></i></a>
+                <div class="modal-quick-view">
+                  <button type="button" data-bs-toggle="modal" data-bs-target="#modal-quick-view">
+                    szybki podgląd
+                  </button>
+                </div>
+              </div>
+              <div class="product-details">
+                <h5 class="price">13 000 zł</h5>
+                <a href="#" class="card-title text-decoration-none">Apple iPhone 14 Pro Max 256 GB, złoty</a>
+              </div>
+            </a>
+            <div class="product-bottom-details text-center p-1">
+              <button class="card-add">Dodaj do koszyka</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-3 col-sm-6">
+          <div class="product-card">
+            <a href="#" class="text-decoration-none text-dark">
+              <div class="product-thumb">
+                <div class="product-img"><img src="{{ STATIC_PREFIX }}img/cards/iPhone12.png" alt="iPhone12"></div>
+                <a href="#" class="text-decoration-none text-dark"><i class=" bi bi-heart" id="icon-heart"></i></a>
+                <div class="modal-quick-view">
+                  <button type="button" data-bs-toggle="modal" data-bs-target="#modal-quick-view">
+                    szybki podgląd
+                  </button>
+                </div>
+              </div>
+              <div class="product-details">
+                <h5 class="price">13 000 zł</h5>
+                <a href="#" class="card-title text-decoration-none">Apple iPhone 14 Pro Max 256 GB, złoty</a>
+              </div>
+            </a>
+            <div class="product-bottom-details text-center p-1">
+              <button class="card-add">Dodaj do koszyka</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-3 col-sm-6">
+          <div class="product-card">
+            <a href="#" class="text-decoration-none text-dark">
+              <div class="product-thumb">
+                <div class="product-img"><img src="{{ STATIC_PREFIX }}img/cards/iPhone12.png" alt="iPhone12"></div>
+                <a href="#" class="text-decoration-none text-dark"><i class=" bi bi-heart" id="icon-heart"></i></a>
+                <div class="modal-quick-view">
+                  <button type="button" data-bs-toggle="modal" data-bs-target="#modal-quick-view">
+                    szybki podgląd
+                  </button>
+                </div>
+              </div>
+              <div class="product-details">
+                <h5 class="price">13 000 zł</h5>
+                <a href="#" class="card-title text-decoration-none">Apple iPhone 14 Pro Max 256 GB, złoty</a>
+              </div>
+            </a>
+            <div class="product-bottom-details text-center p-1">
+              <button class="card-add">Dodaj do koszyka</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% block pagination %}  {% endblock pagination %}
+  </main>
+  <!-- /main content -->
+  {% endblock content %}

@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- mobile metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1" />
+  <!-- site metas -->
+  <title>Tytuł</title>
+  <link rel="icon" href="img/favicon.ico" type="image/x-icon" />
+  <!-- thirdparty css -->
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/bootstrap-icons.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+  <!-- style css -->
+  <link rel="stylesheet" href="css/style.css" />
+
+</head>
+
+<body>
+   <!-- header -->
+   <div class="container-fluid d-md-block d-none" id="header-container-fluid">
+    <header class="container sticky-top " id="header">
+      <div class="row justify-content-between align-items-center" id="nav_row">
+        <div class="col-auto d-flex justify-content-center align-items-center ps-0" id="nav_left">
+          <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling"
+            aria-controls="offcanvasScrolling">
+            <i class="bi bi-list nav-menu-icon" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling"
+              aria-controls="offcanvasScrolling"></i>
+          </button>
+
+          <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
+            id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+            <div class="offcanvas-header">
+              <h1 class="offcanvas-title" id="offcanvasScrollingLabel">
+                Kategorie
+              </h1>
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+              <a href="category.html">
+                <p class="category-name">
+                  <i class="bi bi-house-fill"></i>Dom i ogród
+                </p>
+              </a>
+              <a href="category.html">
+                <p class="category-name">
+                    <i class="bi bi-outlet"></i>Dziecko
+                </p>
+              </a>
+              <a href="category.html">
+                <p class="category-name">
+                    <i class="bi bi-tv-fill"></i>Elektronika
+                </p>
+              </a>
+              <a href="category.html">
+                <p class="category-name">
+                    <i class="bi bi-book-fill"></i>Kultura i rozrywka
+                </p>
+              </a>
+              <a href="category.html">
+                <p class="category-name">
+                  <i class="bi bi-fire"></i>Moda
+                </p>
+               </a> 
+              <a href="category.html">
+                <p class="category-name">
+                    <i class="bi bi-globe-europe-africa"></i>Sport i turystyka
+                </p>
+              </a>  
+              <a href="category.html">
+                <p class="category-name">
+                    <i class="bi bi-stars"></i>Uroda
+                </p>
+              </a>
+              <a href="category.html">
+                <p class="category-name">
+                    <i class="bi bi-capsule-pill"></i>Zdrowie
+                </p>
+              </a>
+            </div>
+          </div>
+          <a href="index.html" class="d-flex text-dark text-decoration-none align-items-center">
+            <h1 class="main-title">Tytuł</h1>
+          </a>
+        </div>
+
+        <div class="col-12 col-lg-8" id="nav_search">
+          <form class="">
+            <input type="search" class="form-control" placeholder="Szukaj..." aria-label="Search" />
+          </form>
+        </div>
+
+        <div class="col-auto d-flex" id="nav_right">
+          <div class="container d-inline-block p-0">
+            <div class="row">
+
+              <div class="col-6">
+                <div class="dropdown ">
+                  <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-person fs-4"></i>
+                  </a>
+                  <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+                    <li><a class="dropdown-item" href="#">New project...</a></li>
+                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li>
+                      <hr class="dropdown-divider" />
+                    </li>
+                    <li><a class="dropdown-item" href="#">Sign out</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-auto">
+                <div class="dropdown">
+                  <a href="#" class="d-fl link-dark text-decoration-none dropdown-toggle" id="dropdownCart"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-bag fs-4"></i>
+                  </a>
+                  <ul class="dropdown-menu text-small" aria-labelledby="dropdownCart">
+                    <li><a class="dropdown-item" href="#">New project...</a></li>
+                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li>
+                      <hr class="dropdown-divider" />
+                    </li>
+                    <li><a class="dropdown-item" href="#">Sign out</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+      
+    </header>
+  </div>
+  <div class="mob-nav-bar-top d-md-none container-fluid d-block fixed-top container-fluid">
+    <div class="row d-flex justify-content-between">
+      <div class="col-auto"><h1 class="main-title">Tytuł</h1></div>
+      <div class="col-auto"><i class="bi bi-search"></i></div>
+    </div>
+  </div>
+  <div class="mob-nav-bar-bottom d-block d-md-none fixed-bottom container-fluid">
+    <div class="row d-flex justify-content-evenly">
+      <div class="col-auto"><i class="bi bi-house-door-fill"></i></div>
+      <div class="col-auto"><i class="bi bi-menu-button-wide"></i></div>
+      <div class="col-auto"><i class="bi bi-cart-fill"></i></div>
+      <div class="col-auto"><i class="bi bi-heart-fill"></i></div>
+      <div class="col-auto"><i class="bi bi-person-fill"></i></div>
+    </div>
+  </div>
+  <!-- /header -->
+
+  <!-- main content -->
+  <main class="container mt-5 mt-md-3 p-sm-0" id="product-card">
+    <div class="row d-flex product-ls">
+        <div class="col-lg-6 col-12">
+            <div class="img-picker row d-flex">
+                <div class="col-12 col-lg-2 thumbnails position-relative my-auto" id="product-image-thumbnail">
+                    <img class="img-thumbnail rounded active" src="img/cards/iPhone12.png" alt="Product image">
+                    <img class="img-thumbnail rounded" src="img/cards/iPhone14-1.webp" alt="Thumbnail2">
+                    <img class="img-thumbnail rounded" src="img/cards/iPhone14-2.png" alt="Thumbnail3">
+                </div>
+                <div class="col-lg-10 col-12 product-image d-flex justify-content-center" id="product-main-image">
+                    <img src="img/cards/iPhone12.png" alt="Product image">
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 product-rs">
+            <div class="row category-nav-name">
+                <div class="col-auto">
+                  <a href="#">CategoryParent</a><i class="bi bi-chevron-right text-dark"></i><a href="#">CategoryChild</a><i class="bi bi-chevron-right text-dark"></i><a href="#">CategoryChild</a>
+                </div>
+            </div>
+            <div class="row product-big-name d-flex justify-content-lg-between">
+                <div class="col-auto"><h3 class="fw-bold mb-0">ProductName</h3></div>
+                <div class="col-auto my-auto"><h4 class="mb-0"><b>13 000 zł</b></h4></div>
+            </div>
+            <div class="row brand-name">
+                <div class="col-auto"><p class="text-muted">BrandName</p></div>
+            </div>
+            <p class="product-description">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nostrum dolor, molestiae delectus architecto soluta neque earum nulla sapiente sint provident doloremque nemo laudantium incidunt repellendus ullam expedita temporibus doloribus adipisci illum quia. Optio architecto dolorum incidunt magnam nam corrupti reprehenderit.</p>
+            <button class="card-add">Dodaj do koszyka</button>
+            <div class="row reviews-info">
+                <div class="col-6">
+                    <div class="reviews">
+                        <b>Reviews </b><text class="text-muted">16</text>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="row">
+                        <div class="col-10 d-flex justify-content-end">
+                            <div class="rating">
+                                <div class="rating-upper" style="width: 96%">
+                                    <span>★</span>
+                                    <span>★</span>
+                                    <span>★</span>
+                                    <span>★</span>
+                                    <span>★</span>
+                                </div>
+                                <div class="rating-lower">
+                                    <span>★</span>
+                                    <span>★</span>
+                                    <span>★</span>
+                                    <span>★</span>
+                                    <span>★</span>
+                                </div>
+                            </div>
+                            <text class="px-1">4.8</text>
+                        </div>
+                        <div class="col-2">
+                            >
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row delivery-info">
+                <div class="col-6">
+                    <div class="reviews">
+                        <b>Delivery info</b>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="row">
+                        <div class="col-10 d-flex justify-content-end">
+                            <text class="text-success">Free shipping</text>
+                        </div>  
+                        <div class="col-2">
+                            >
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <h3>Inni klienci oglądali również</h3>
+        <div class="swiper">
+            <div class="swiper-wrapper">
+              <!-- Slides -->
+              <div class="swiper-slide">
+                <div class="product-card">
+                    <a href="#" class="text-decoration-none text-dark">
+                      <div class="product-thumb">
+                        <div class="product-img"><img src="img/cards/iPhone12.png" alt="iPhone12"></div>
+                        <a href="#" class="text-decoration-none text-dark"><i class=" bi bi-heart" id="icon-heart"></i></a>
+                        <div class="modal-quick-view">
+                          <button type="button" data-bs-toggle="modal" data-bs-target="#modal-quick-view">
+                            szybki podgląd
+                          </button>
+                        </div>
+                      </div>
+                      <div class="product-details">
+                        <h5 class="price">13 000 zł</h5>
+                        <a href="#" class="card-title text-decoration-none">Apple iPhone 14 Pro Max 256 GB, złoty</a>
+                      </div>
+                    </a>
+                    <div class="product-bottom-details text-center p-1">
+                      <button class="card-add">Dodaj do koszyka</button>
+                    </div>
+                </div>
+              </div>
+              <div class="swiper-slide">
+                <div class="product-card">
+                    <a href="#" class="text-decoration-none text-dark">
+                      <div class="product-thumb">
+                        <div class="product-img"><img src="img/cards/iPhone12.png" alt="iPhone12"></div>
+                        <a href="#" class="text-decoration-none text-dark"><i class=" bi bi-heart" id="icon-heart"></i></a>
+                        <div class="modal-quick-view">
+                          <button type="button" data-bs-toggle="modal" data-bs-target="#modal-quick-view">
+                            szybki podgląd
+                          </button>
+                        </div>
+                      </div>
+                      <div class="product-details">
+                        <h5 class="price">13 000 zł</h5>
+                        <a href="#" class="card-title text-decoration-none">Apple iPhone 14 Pro Max 256 GB, złoty</a>
+                      </div>
+                    </a>
+                    <div class="product-bottom-details text-center p-1">
+                      <button class="card-add">Dodaj do koszyka</button>
+                    </div>
+                </div>
+              </div>
+              <div class="swiper-slide">
+                <div class="product-card">
+                    <a href="#" class="text-decoration-none text-dark">
+                      <div class="product-thumb">
+                        <div class="product-img"><img src="img/cards/iPhone12.png" alt="iPhone12"></div>
+                        <a href="#" class="text-decoration-none text-dark"><i class=" bi bi-heart" id="icon-heart"></i></a>
+                        <div class="modal-quick-view">
+                          <button type="button" data-bs-toggle="modal" data-bs-target="#modal-quick-view">
+                            szybki podgląd
+                          </button>
+                        </div>
+                      </div>
+                      <div class="product-details">
+                        <h5 class="price">13 000 zł</h5>
+                        <a href="#" class="card-title text-decoration-none">Apple iPhone 14 Pro Max 256 GB, złoty</a>
+                      </div>
+                    </a>
+                    <div class="product-bottom-details text-center p-1">
+                      <button class="card-add">Dodaj do koszyka</button>
+                    </div>
+                </div>
+              </div>
+              <div class="swiper-slide">
+                <div class="product-card">
+                    <a href="#" class="text-decoration-none text-dark">
+                      <div class="product-thumb">
+                        <div class="product-img"><img src="img/cards/iPhone12.png" alt="iPhone12"></div>
+                        <a href="#" class="text-decoration-none text-dark"><i class=" bi bi-heart" id="icon-heart"></i></a>
+                        <div class="modal-quick-view">
+                          <button type="button" data-bs-toggle="modal" data-bs-target="#modal-quick-view">
+                            szybki podgląd
+                          </button>
+                        </div>
+                      </div>
+                      <div class="product-details">
+                        <h5 class="price">13 000 zł</h5>
+                        <a href="#" class="card-title text-decoration-none">Apple iPhone 14 Pro Max 256 GB, złoty</a>
+                      </div>
+                    </a>
+                    <div class="product-bottom-details text-center p-1">
+                      <button class="card-add">Dodaj do koszyka</button>
+                    </div>
+                </div>
+              </div>
+              <div class="swiper-slide">
+                <div class="product-card">
+                    <a href="#" class="text-decoration-none text-dark">
+                      <div class="product-thumb">
+                        <div class="product-img"><img src="img/cards/iPhone12.png" alt="iPhone12"></div>
+                        <a href="#" class="text-decoration-none text-dark"><i class=" bi bi-heart" id="icon-heart"></i></a>
+                        <div class="modal-quick-view">
+                          <button type="button" data-bs-toggle="modal" data-bs-target="#modal-quick-view">
+                            szybki podgląd
+                          </button>
+                        </div>
+                      </div>
+                      <div class="product-details">
+                        <h5 class="price">13 000 zł</h5>
+                        <a href="#" class="card-title text-decoration-none">Apple iPhone 14 Pro Max 256 GB, złoty</a>
+                      </div>
+                    </a>
+                    <div class="product-bottom-details text-center p-1">
+                      <button class="card-add">Dodaj do koszyka</button>
+                    </div>
+                </div>
+              </div>
+              <div class="swiper-slide">
+                <div class="product-card">
+                    <a href="#" class="text-decoration-none text-dark">
+                      <div class="product-thumb">
+                        <div class="product-img"><img src="img/cards/iPhone12.png" alt="iPhone12"></div>
+                        <a href="#" class="text-decoration-none text-dark"><i class=" bi bi-heart" id="icon-heart"></i></a>
+                        <div class="modal-quick-view">
+                          <button type="button" data-bs-toggle="modal" data-bs-target="#modal-quick-view">
+                            szybki podgląd
+                          </button>
+                        </div>
+                      </div>
+                      <div class="product-details">
+                        <h5 class="price">13 000 zł</h5>
+                        <a href="#" class="card-title text-decoration-none">Apple iPhone 14 Pro Max 256 GB, złoty</a>
+                      </div>
+                    </a>
+                    <div class="product-bottom-details text-center p-1">
+                      <button class="card-add">Dodaj do koszyka</button>
+                    </div>
+                </div>
+              </div>
+              <div class="swiper-slide">
+                <div class="product-card">
+                    <a href="#" class="text-decoration-none text-dark">
+                      <div class="product-thumb">
+                        <div class="product-img"><img src="img/cards/iPhone12.png" alt="iPhone12"></div>
+                        <a href="#" class="text-decoration-none text-dark"><i class=" bi bi-heart" id="icon-heart"></i></a>
+                        <div class="modal-quick-view">
+                          <button type="button" data-bs-toggle="modal" data-bs-target="#modal-quick-view">
+                            szybki podgląd
+                          </button>
+                        </div>
+                      </div>
+                      <div class="product-details">
+                        <h5 class="price">13 000 zł</h5>
+                        <a href="#" class="card-title text-decoration-none">Apple iPhone 14 Pro Max 256 GB, złoty</a>
+                      </div>
+                    </a>
+                    <div class="product-bottom-details text-center p-1">
+                      <button class="card-add">Dodaj do koszyka</button>
+                    </div>
+                </div>
+              </div>
+              <div class="swiper-slide">
+                <div class="product-card">
+                    <a href="#" class="text-decoration-none text-dark">
+                      <div class="product-thumb">
+                        <div class="product-img"><img src="img/cards/iPhone12.png" alt="iPhone12"></div>
+                        <a href="#" class="text-decoration-none text-dark"><i class=" bi bi-heart" id="icon-heart"></i></a>
+                        <div class="modal-quick-view">
+                          <button type="button" data-bs-toggle="modal" data-bs-target="#modal-quick-view">
+                            szybki podgląd
+                          </button>
+                        </div>
+                      </div>
+                      <div class="product-details">
+                        <h5 class="price">13 000 zł</h5>
+                        <a href="#" class="card-title text-decoration-none">Apple iPhone 14 Pro Max 256 GB, złoty</a>
+                      </div>
+                    </a>
+                    <div class="product-bottom-details text-center p-1">
+                      <button class="card-add">Dodaj do koszyka</button>
+                    </div>
+                </div>
+              </div>
+              <div class="swiper-slide">
+                <div class="product-card">
+                    <a href="#" class="text-decoration-none text-dark">
+                      <div class="product-thumb">
+                        <div class="product-img"><img src="img/cards/iPhone12.png" alt="iPhone12"></div>
+                        <a href="#" class="text-decoration-none text-dark"><i class=" bi bi-heart" id="icon-heart"></i></a>
+                        <div class="modal-quick-view">
+                          <button type="button" data-bs-toggle="modal" data-bs-target="#modal-quick-view">
+                            szybki podgląd
+                          </button>
+                        </div>
+                      </div>
+                      <div class="product-details">
+                        <h5 class="price">13 000 zł</h5>
+                        <a href="#" class="card-title text-decoration-none">Apple iPhone 14 Pro Max 256 GB, złoty</a>
+                      </div>
+                    </a>
+                    <div class="product-bottom-details text-center p-1">
+                      <button class="card-add">Dodaj do koszyka</button>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-scrollbar"></div>
+          </div>
+    </div>
+    <!-- pagination -->
+    <div class="pagination d-flex container justify-content-center justify-content-lg-end">
+        <div class="pagination-list">
+          <a href="#" class="first">&laquo;</a>
+          <a href="#" class="active">1</a>
+          <a href="#" >2</a>
+          <a href="#">3</a>
+          <a href="#">4</a>
+          <a href="#">5</a>
+          <a href="#">6</a>
+          <a href="#" class="last">&raquo;</a>
+        </div>
+      </div>
+      <!-- /pagintation -->
+    </main>
+  <!-- /main content -->
+  
+  <!-- footer -->
+  <div class="container-fluid" id="footer-container-fluid">
+    <footer class="container">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <a class="text-decoration-none link-dark" href="#" target="_blank"><span class="footer_title">Tytuł</span></a>
+        </div>
+        <div class="d-flex align-items-center text-white copyright-text text-wrap">
+          Fragmenty tej zawartości są ©2023 autorstwa poszczególnych autorów Tytułu
+        </div>
+        <div class="footer_icon">
+          <ul class="d-flex gap-3 list-unstyled mt-3">
+            <li>
+              <a href="#"><i class="bi bi-facebook"></i></a>
+            </li>
+            <li>
+              <a href="#"><i class="bi bi-twitter"></i></a>
+            </li>
+            <li>
+              <a href="#"><i class="bi bi-instagram"></i></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+  </div>
+  <!-- /footer -->
+
+  <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
+  <script type="text/javascript" src="js/jquery-3.7.0.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+  <script type="text/javascript" src="js/script.js"></script>
+</body>
+
+</html>
