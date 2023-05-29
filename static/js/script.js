@@ -34,35 +34,41 @@ const swiper = new Swiper('.swiper', {
     el: '.swiper-scrollbar',
   },
 });
+
 // rotate search
 let nav_search_move = false;
 
 function insertAfter(newNode, existingNode) {
   existingNode.parentNode.insertBefore(newNode, existingNode.nextSibling);
-}
+};
+
 function insertBefore(existingDiv, newDiv) {
   existingDiv.parentNode.insertBefore(newDiv, existingDiv);
-}
+};
 
 function handleResize() {
   const screenWidth = window.innerWidth;
 
   if (screenWidth < 992) {
+    if (productThumbnail != null ) {
     imagePicker.appendChild(productImage);
     imagePicker.appendChild(productThumbnail);
     insertBefore(productLeftside, categoryNavName);
     insertBefore(productLeftside, productBigName);
     insertBefore(productLeftside, brandName);
+    };
     if (!nav_search_move) {
       insertAfter(navSearch, navRow);
       nav_search_move = true;
-    }
+    };
   } else {
+    if (productThumbnail != null ) {
     imagePicker.appendChild(productThumbnail);
     imagePicker.appendChild(productImage);
     insertBefore(productDescription, categoryNavName);
     insertBefore(productDescription, productBigName);
     insertBefore(productDescription, brandName);
+    };
     if (nav_search_move) {
       insertAfter(navSearch, navLeft);
       nav_search_move = false;
@@ -72,6 +78,7 @@ function handleResize() {
   
 handleResize();
 window.addEventListener("resize", handleResize);
+
 // product-image clicker
 $(document).ready(function() {
     
@@ -93,6 +100,7 @@ $(document).ready(function() {
 
 // icon-heart fill if hover
 const icon_hearts = document.querySelectorAll('#icon-heart');
+
 icon_hearts.forEach(function(icon_heart) {
   icon_heart.addEventListener('mouseenter', function() {
     this.classList.remove('bi-heart');
