@@ -1,8 +1,10 @@
 from django.urls import path
 
-from . import views
-app_name = "category"
+from .views import CategoryListView, SubCategoryListView
 
+
+app_name = "category"
 urlpatterns = [
-    path("", views.category, name="category"),
+    path("<slug:category_slug>", CategoryListView.as_view(), name="category"),
+    path("<slug:category_slug>/<slug:subcategory_slug>", SubCategoryListView.as_view(), name="subcategory"),
 ]
