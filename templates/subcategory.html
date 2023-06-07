@@ -11,11 +11,12 @@
     <div class="nav-category container">
       <div class="row category-nav-name">
         <div class="col-auto">
-          <a href="{{ category.get_absolute_url }}">{{ category.title }}</a>
+          <a href="{{ subcategory.main_category.get_absolute_url }}">{{ subcategory.main_category.title }}</a><i class="bi bi-chevron-right text-dark">
+          </i><a href="{{ subcategory.get_absolute_url }}">{{ subcategory.title }}</a>
         </div>
       </div>
       <div class="row category-big-name">
-        <div class="col-auto"><h1>{{ category.title }}</h1></div>
+        <div class="col-auto"><h1>{{ subcategory.title }}</h1></div>
       </div>
       <div class="row category-nav-name-buttons justify-content-between justify-content-md-start">
         {% for subcategory in subcategories %} 

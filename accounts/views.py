@@ -12,6 +12,7 @@ class signup_login_view(LoginView):
 
 
 def login_user(request):
+    logout(request)
     resp = {"status":'failed','msg':''}
     username = ''
     password = ''

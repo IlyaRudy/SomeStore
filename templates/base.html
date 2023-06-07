@@ -17,6 +17,7 @@
   <!-- thirdparty css -->
   <link rel="stylesheet" href="{{ STATIC_PREFIX }}css/bootstrap.min.css" />
   <link rel="stylesheet" href="{{ STATIC_PREFIX }}css/bootstrap-icons.min.css" />
+  <link rel="stylesheet" href="{{ STATIC_PREFIX }}css/all.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
   <!-- style css -->
   <link rel="stylesheet" href="{{ STATIC_PREFIX }}css/style.css" />
@@ -44,46 +45,15 @@
               <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
-                <a href="{% url 'category:category' %}">
+              {% for ctg in all_categories %}
+              <!-- all categories -->
+              <a href="{{ ctg.get_absolute_url }}">
                 <p class="category-name">
-                  <i class="bi bi-house-fill"></i>Dom i ogród
+                  <i class="{{ ctg.category_icon }}"></i>{{ ctg.title }}
                 </p>
               </a>
-              <a href="{% url 'category:category' %}">
-                <p class="category-name">
-                    <i class="bi bi-outlet"></i>Dziecko
-                </p>
-              </a>
-              <a href="{% url 'category:category' %}">
-                <p class="category-name">
-                    <i class="bi bi-tv-fill"></i>Elektronika
-                </p>
-              </a>
-              <a href="{% url 'category:category' %}">
-                <p class="category-name">
-                    <i class="bi bi-book-fill"></i>Kultura i rozrywka
-                </p>
-              </a>
-              <a href="{% url 'category:category' %}">
-                <p class="category-name">
-                  <i class="bi bi-fire"></i>Moda
-                </p>
-               </a> 
-              <a href="{% url 'category:category' %}">
-                <p class="category-name">
-                    <i class="bi bi-globe-europe-a frica"></i>Sport i turystyka
-                </p>
-              </a>  
-              <a href="{% url 'category:category' %}">
-                <p class="category-name">
-                    <i class="bi bi-stars"></i>Uroda
-                </p>
-              </a>
-              <a href="{% url 'category:category' %}">
-                <p class="category-name">
-                    <i class="bi bi-capsule-pill"></i>Zdrowie
-                </p>
-              </a>
+              <!-- /all categories -->
+              {% endfor %}
             </div>
           </div>
           <a href="{% url 'main:index' %}" class="d-flex text-dark text-decoration-none align-items-center">
@@ -165,22 +135,7 @@
   <!-- /header -->
   {% block content %}  {% endblock content %}
 
-      {% block pagination %}
-      <!-- pagination -->
-      <div class="pagination d-flex container justify-content-center justify-content-lg-end">
-        <div class="pagination-list">
-          <a href="#" class="first">&laquo;</a>
-          <a href="#" class="active">1</a>
-          <a href="#">2</a>
-          <a href="#">3</a>
-          <a href="#">4</a>
-          <a href="#">5</a>
-          <a href="#">6</a>
-          <a href="#" class="last">&raquo;</a>
-        </div>
-      </div>
-      <!-- /pagintation -->  
-      {% endblock pagination %}
+
       
   <!-- footer -->
   <div class="container-fluid" id="footer-container-fluid">

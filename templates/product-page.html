@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+
+  {% block content %}
+  <!-- main content -->
+  <main class="container mt-5 mt-md-3 p-sm-0" id="product-card">
+    <div class="row d-flex product-ls">
+        <div class="col-lg-6 col-12">
+            <div class="img-picker row d-flex">
+                <div class="col-12 col-lg-2 thumbnails position-relative my-auto" id="product-image-thumbnail">
+                    <img class="img-thumbnail rounded active" src="{{ product.product_main_img.url }}" alt="product-main-image">
+                    {% for img in product.thumbnail_images.all %}
+                    <img class="img-thumbnail rounded" src="{{ img.image.url }}" alt="{{ img.image.name }}">
+                    {% endfor %}
+                </div>
+                <div class="col-lg-10 col-12 product-image d-flex justify-content-center" id="product-main-image">
+                    <img src="{{ product.product_main_img.url }}" alt="Product image">
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 product-rs">
+            <div class="row category-nav-name">
+                <div class="col-auto">
+                  <a href="{{ product.main_category.get_absolute_url }}">{{ product.main_category}}</a><i class="bi bi-chevron-right text-dark"></i><a href="{{ product.main_subcategory.get_absolute_url }}">{{ product.main_subcategory }}</a>
+                </div>
+            </div>
+            <div class="row product-big-name d-flex justify-content-lg-between">
+                <div class="col-auto"><h3 class="fw-bold mb-0">{{ product.title }}</h3></div>
+                <div class="col-auto my-auto"><h4 class="mb-0"><b>{{ product.price }} zł</b></h4></div>
+            </div>
+            <div class="row brand-name">
+                <div class="col-auto"><p class="text-muted">{{ product.brand_name }}</p></div>
+            </div>
+            <p class="product-description">{{ product.description }}</p>
+            <button class="card-add">Dodaj do koszyka</button>
+            <div class="row reviews-info">
+                <div class="col-6">
+                    <div class="reviews">
+                        <b>Reviews </b><text class="text-muted">16</text>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="row">
+                        <div class="col-10 d-flex justify-content-end">
+                            <div class="rating">
+                                <div class="rating-upper" style="width: 96%">
+                                    <span>★</span>
+                                    <span>★</span>
+                                    <span>★</span>
+                                    <span>★</span>
+                                    <span>★</span>
+                                </div>
+                                <div class="rating-lower">
+                                    <span>★</span>
+                                    <span>★</span>
+                                    <span>★</span>
+                                    <span>★</span>
+                                    <span>★</span>
+                                </div>
+                            </div>
+                            <text class="px-1">4.8</text>
+                        </div>
+                        <div class="col-2">
+                            >
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row delivery-info">
+                <div class="col-6">
+                    <div class="reviews">
+                        <b>Delivery info</b>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="row">
+                        <div class="col-10 d-flex justify-content-end">
+                            <text class="text-success">Free shipping</text>
+                        </div>  
+                        <div class="col-2">
+                            >
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <h3>Inni klienci oglądali również</h3>
+        <div class="swiper">
+            <div class="swiper-wrapper">
+              <!-- Slides -->
+              {% for product in all_products %}
+                <div class="swiper-slide">
+                  {% include 'product-card.html' %}
+                </div>
+              {% endfor %}
+            </div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-scrollbar"></div>
+        </div>
+    </div>
+    
+    </main>
+  <!-- /main content -->
+  {% endblock content %}
+ 
