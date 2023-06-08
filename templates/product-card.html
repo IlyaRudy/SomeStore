@@ -14,7 +14,7 @@
       </div>
       <div class="product-details">
         <h5 class="price">{{ product.price }} zł</h5>
-        <a href="#" class="card-title text-decoration-none">{{ product.card_title|truncatechars:25 }}</a>
+        <a href="{{ product.get_absolute_url }}" class="card-title text-decoration-none">{{ product.card_title|truncatechars:25 }}</a>
       </div>
     </a>
     <div class="product-bottom-details text-center p-1">
@@ -28,11 +28,14 @@
           <div class="row">
             <div class="col-6">
               <div id="modal-quick-view-indicators{{ forloop.counter }}" class="carousel slide">
+                {% with main_counter=forloop.counter %}
                 <div class="carousel-indicators">
-                  <button type="button" data-bs-target="#modal-quick-view-indicators{{ forloop.counter }}" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                  <button type="button" data-bs-target="#modal-quick-view-indicators{{ forloop.counter }}" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                  <button type="button" data-bs-target="#modal-quick-view-indicators{{ forloop.counter }}" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                  <button type="button" data-bs-target="#modal-quick-view-indicators{{ main_counter }}" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 0"></button>
+                  {% for _ in product.thumbnail_images.all %}
+                  <button type="button" data-bs-target="#modal-quick-view-indicators{{ main_counter }}" data-bs-slide-to="{{ forloop.counter }}" aria-label="Slide {{ forloop.counter }}"></button>
+                  {% endfor %}
                 </div>
+                {% endwith %}
                 <div class="carousel-inner">
                   <div class="carousel-item active">
                     <img src="{{ product.product_main_img.url }}" alt="{{ product.title }}">
@@ -54,8 +57,10 @@
               </div>
             </div>
             <div class="col-6">
-              <a href="{{ product.get_absolute_url }}" class="text-decoration-none text-dark"><h4 class="title-quick-view">Title</h4></a>
+              <a href="{{ product.get_absolute_url }}" class="text-decoration-none text-dark"><h4 class="title-quick-view">{{ product.title }}</h4></a>
               <p class="price">{{ product.price }} zł</p>
+              <p class="card-title">{{ product.card_title }} zł</p>
+
               <div class="container-fluid p-0">
                 <div class="row quick-view-rs">
                   <div class="col-10">
@@ -64,7 +69,7 @@
                     </div>
                   </div>
                   <div class="col-2 position-relative p-0 justify-content-start">
-                    <div class="rs-heart align-content-center"><a href="#" class="text-decoration-none text-dark"><i class="bi bi-heart"></i></a></div>
+                    <div class="rs-heart align-content-center"><a href="#" class="text-decoration-none text-dark"><i class="bi bi-heart" id="icon-heart"></i></a></div>
                   </div>
                 </div>
               </div>
