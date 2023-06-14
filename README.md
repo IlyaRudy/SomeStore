@@ -43,10 +43,13 @@ These plans reflect my vision for the continuous improvement and expansion of th
 *A screenshot of the sliding left menu, providing easy navigation and access to various sections of the website, including categories, subcategories, and additional functionalities.*
 
 ### Product Page
-![Product Page](screenshots/product-page1.png)
-![Product Page](screenshots/product-page2.png)
+![Product Page1](screenshots/product-page1.png)
+![Product Page2](screenshots/product-page2.png)
 *An example product page displaying the brand name, description, price, add to cart button, and a slider showcasing other related products.*
 
+![Product Page3](screenshots/product-page3.png)
+![Product Page4](screenshots/product-page4.png)
+*The review section on the product page features customer feedback, ratings, and written reviews to help shoppers make informed purchasing decisions.*
 ### Registration Page
 ![Registration Page](screenshots/registpage.png)
 *The user registration page featuring a convenient form for creating an account and accessing personalized features.*
