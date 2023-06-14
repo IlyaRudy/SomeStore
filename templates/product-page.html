@@ -6,105 +6,281 @@
   {% block content %}
   <!-- main content -->
   <main class="container mt-5 mt-md-3 p-sm-0" id="product-card">
-    <div class="row d-flex product-ls">
-        <div class="col-lg-6 col-12">
-            <div class="img-picker row d-flex">
-                <div class="col-12 col-lg-2 thumbnails position-relative my-auto" id="product-image-thumbnail">
-                    <img class="img-thumbnail rounded active" src="{{ product.product_main_img.url }}" alt="product-main-image">
-                    {% for img in product.thumbnail_images.all %}
-                    <img class="img-thumbnail rounded" src="{{ img.image.url }}" alt="{{ img.image.name }}">
-                    {% endfor %}
-                </div>
-                <div class="col-lg-10 col-12 product-image d-flex justify-content-center" id="product-main-image">
-                    <img src="{{ product.product_main_img.url }}" alt="Product image">
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-6 product-rs">
-            <div class="row category-nav-name">
-                <div class="col-auto">
-                  <a href="{{ product.main_category.get_absolute_url }}">{{ product.main_category}}</a><i class="bi bi-chevron-right text-dark"></i><a href="{{ product.main_subcategory.get_absolute_url }}">{{ product.main_subcategory }}</a>
-                </div>
-            </div>
-            <div class="row product-big-name d-flex justify-content-lg-between">
-                <div class="col-auto"><h3 class="fw-bold mb-0">{{ product.title }}</h3></div>
-                <div class="col-auto my-auto"><h4 class="mb-0"><b>{{ product.price }} zł</b></h4></div>
-            </div>
-            <div class="row brand-name">
-                <div class="col-auto"><p class="text-muted">{{ product.brand_name }}</p></div>
-            </div>
-            <p class="product-description">{{ product.description }}</p>
-            <button class="card-add">Dodaj do koszyka</button>
-            <div class="row reviews-info">
-                <div class="col-6">
-                    <div class="reviews">
-                        <b>Reviews </b><text class="text-muted">16</text>
+        <div class="row d-flex product-ls">
+            <div class="col-lg-6 col-12">
+                <div class="img-picker row d-flex">
+                    <div class="col-12 col-lg-2 thumbnails position-relative my-auto" id="product-image-thumbnail">
+                        <img class="img-thumbnail rounded active" src="{{ product.product_main_img.url }}" alt="product-main-image">
+                        {% for img in product.thumbnail_images.all %}
+                        <img class="img-thumbnail rounded" src="{{ img.image.url }}" alt="{{ img.image.name }}">
+                        {% endfor %}
+                    </div>
+                    <div class="col-lg-10 col-12 product-image d-flex justify-content-center" id="product-main-image">
+                        <img src="{{ product.product_main_img.url }}" alt="Product image">
                     </div>
                 </div>
-                <div class="col-6">
-                    <div class="row">
-                        <div class="col-10 d-flex justify-content-end">
-                            <div class="rating">
-                                <div class="rating-upper" style="width: 96%">
-                                    <span>★</span>
-                                    <span>★</span>
-                                    <span>★</span>
-                                    <span>★</span>
-                                    <span>★</span>
+            </div>
+            <div class="col-lg-6 product-rs">
+                <div class="row category-nav-name">
+                    <div class="col-auto">
+                    <a href="{{ product.main_category.get_absolute_url }}">{{ product.main_category }}</a><i class="bi bi-chevron-right text-dark"></i><a href="{{ product.main_subcategory.get_absolute_url }}">{{ product.main_subcategory }}</a>
+                    </div>
+                </div>
+                <div class="row product-big-name d-flex justify-content-lg-between">
+                    <div class="col-auto"><h3 class="fw-bold mb-0">{{ product.title }}</h3></div>
+                    <div class="col-auto my-auto"><h4 class="mb-0"><b>{{ product.price }} zł</b></h4></div>
+                </div>
+                <div class="row brand-name">
+                    <div class="col-auto"><p class="text-muted">{{ product.brand_name }}</p></div>
+                </div>
+                <p class="product-description">{{ product.description }}</p>
+                <button class="card-add">Dodaj do koszyka</button>
+                <div class="row reviews-info">
+                    <div class="col-6">
+                        <div class="reviews">
+                            <b>Reviews </b><text class="text-muted">16</text>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="row">
+                            <div class="col-10 d-flex justify-content-end">
+                                <div class="rating">
+                                    <div class="rating-upper" style="width: 96%">
+                                        <span>★</span>
+                                        <span>★</span>
+                                        <span>★</span>
+                                        <span>★</span>
+                                        <span>★</span>
+                                    </div>
+                                    <div class="rating-lower">
+                                        <span>★</span>
+                                        <span>★</span>
+                                        <span>★</span>
+                                        <span>★</span>
+                                        <span>★</span>
+                                    </div>
                                 </div>
-                                <div class="rating-lower">
-                                    <span>★</span>
-                                    <span>★</span>
-                                    <span>★</span>
-                                    <span>★</span>
-                                    <span>★</span>
-                                </div>
+                                <text class="px-1">4.8</text>
                             </div>
-                            <text class="px-1">4.8</text>
-                        </div>
-                        <div class="col-2">
-                            >
+                            <div class="col-2">
+                                >
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row delivery-info">
-                <div class="col-6">
-                    <div class="reviews">
-                        <b>Delivery info</b>
+                <div class="row delivery-info">
+                    <div class="col-6">
+                        <div class="reviews">
+                            <b>Delivery info</b>
+                        </div>
                     </div>
-                </div>
-                <div class="col-6">
-                    <div class="row">
-                        <div class="col-10 d-flex justify-content-end">
-                            <text class="text-success">Free shipping</text>
-                        </div>  
-                        <div class="col-2">
-                            >
+                    <div class="col-6">
+                        <div class="row">
+                            <div class="col-10 d-flex justify-content-end">
+                                <text class="text-success">Free shipping</text>
+                            </div>  
+                            <div class="col-2">
+                                >
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="container">
-        <h3>Inni klienci oglądali również</h3>
-        <div class="swiper">
-            <div class="swiper-wrapper">
-              <!-- Slides -->
-              {% for product in all_products %}
-                <div class="swiper-slide">
-                  {% include 'product-card.html' %}
+        <div class="container">
+            <h3>Inni klienci oglądali również</h3>
+            <div class="swiper">
+                <div class="swiper-wrapper">
+                <!-- Slides -->
+                {% for product in all_products %}
+                    <div class="swiper-slide">
+                    {% include 'product-card.html' %}
+                    </div>
+                {% endfor %}
                 </div>
-              {% endfor %}
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-scrollbar"></div>
             </div>
-            <div class="swiper-button-prev"></div>
-            <div class="swiper-button-next"></div>
-            <div class="swiper-scrollbar"></div>
         </div>
-    </div>
-    
     </main>
   <!-- /main content -->
+  <div class="container my-5 py-5">
+    <div class="row d-flex justify-content-center">
+      <div class="col-md-12 col-lg-10">
+        <div class="card text-dark">
+            <div class="px-4 pt-4" id='users_reviews'>
+                <h4 class="mb-0">Reviews</h4>
+                <p class="fw-light mb-4 pb-2">Latest feedback section by users</p>
+            </div>
+          {% for review in reviews %}
+          <div class="card-body p-4" >
+            <div class="d-flex flex-start">
+              <img class="rounded-circle shadow-1-strong me-3"
+                src="media/accounts/pustoi-avatar-3.webp" alt="avatar" width="60"
+                height="60" />
+              <div>
+                <h6 class="fw-bold mb-1">{{ review.author }}</h6>
+                <div class="d-flex align-items-center mb-3">
+                  <p class="mb-0">
+                    {{ review.created_date|date:"j F Y H:i" }}&nbsp; 
+                    <div class="rating">
+                        <div class="rating-upper" style="width: {{ review.five_star_rating_procent }}%">
+                            <span>★</span>
+                            <span>★</span>
+                            <span>★</span>
+                            <span>★</span>
+                            <span>★</span>
+                        </div>
+                        <div class="rating-lower"> 
+                            <span>★</span>
+                            <span>★</span>
+                            <span>★</span>
+                            <span>★</span>
+                            <span>★</span>
+                        </div>
+                    </div> 
+                  </p>
+                </div>
+                <p class="mb-0 position-relative">
+                    {{ review.text }}
+                </p>
+                {% if review.image %}
+                <div class="review-image d-flex" 
+                style="
+                max-height: 13em
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 250px;
+                ">
+                    <img class="img-thumbnail rounded mx-auto d-flex" 
+                    style=" max-width: 100%;
+                            max-height: 100%; "  
+                    src="{{ review.image.url }}" alt="review image">
+                </div>
+            {% endif %}
+              </div>
+            </div>
+          </div>
+          {% if not forloop.last %}
+            <hr class="my-0" />
+          {% endif %}
+          {% empty %}
+            <h6 class="px-4 py-0 m-0">There no feedback</h6>
+          {% endfor %}
+        <div id="error-message"></div>
+        {% if user.is_authenticated and not form_submitted %}
+        <hr class="my-3" id="form-for-reviews-hr" />
+        <div id="form-for-reviews" class="container mt-2">
+            <h4>Leave your feedback</h4>
+            <form id="review-form" method="POST">
+                {% csrf_token %}
+                <div class="review-form-rating mb-2">
+                    <input class="col-2" type="number" name="five_star_rating" min="1" max="5" placeholder="Rating (1-5)" required>
+                </div>
+                <div class="review-form-text mb-2">
+                    <textarea class="col-12" style="min-height: 13em;" name="comment" placeholder="Your review" required></textarea>
+                </div>
+                <div class="review-form-input-file mb-2">
+                    Upload photo<br>
+                    <input type="file" name="image" accept="image/*">
+                </div>
+                <button class="btn btn-success mb-4" type="submit">Send Feedback</button>
+            </form>
+        </div>
+        {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
   {% endblock content %}
+  {% block scripts %}
+    <script>
+        $(function() {
+            $('#review-form').submit(function(e) {
+                e.preventDefault();
+        
+                var formData = new FormData(this);  
+        
+                formData.append('product_slug', '{{ product_slug }}');  
+        
+                $.ajax({
+                    headers: {
+                        "X-CSRFToken": '{{ csrf_token }}'
+                    },
+                    url: "{{ product.get_absolute_url }}",
+                    data: formData, 
+                    method: 'POST',
+                    contentType: false,  
+                    processData: false,  
+                    success: function(resp) {
+                        var createdDate = new Date(resp.review_data.created_date);
+
+                        var day = createdDate.getDate();
+                        var month = createdDate.toLocaleString('en', { month: 'long' });
+                        var year = createdDate.getFullYear();
+                        var hour = createdDate.getHours().toString().padStart(2, '0');
+                        var minute = createdDate.getMinutes().toString().padStart(2, '0');
+
+                        var formattedDate = day + ' ' + month + ' ' + year + ' ' + hour + ':' + minute;
+
+                        var html = `
+                        <div class="card-body p-4">
+                            <div class="d-flex flex-start">
+                                <img class="rounded-circle shadow-1-strong me-3" src="media/accounts/pustoi-avatar-3.webp" alt="avatar" width="60" height="60" />
+                                <div>
+                                    <h6 class="fw-bold mb-1">${resp.review_data.author}</h6>
+                                    <div class="d-flex align-items-center mb-3">
+                                        <p class="mb-0">
+                                            ${formattedDate}&nbsp;
+                                            <div class="rating">
+                                                <div class="rating-upper" style="width: ${resp.review_data.five_star_rating_procent}%">
+                                                    <span>★</span>
+                                                    <span>★</span>
+                                                    <span>★</span>
+                                                    <span>★</span>
+                                                    <span>★</span>
+                                                </div>
+                                                <div class="rating-lower">
+                                                    <span>★</span>
+                                                    <span>★</span>
+                                                    <span>★</span>
+                                                    <span>★</span>
+                                                    <span>★</span>
+                                                </div>
+                                            </div>
+                                        </p>
+                                    </div>
+                                    <p class="mb-0">
+                                        ${resp.review_data.text}
+                                    </p>
+                                    ${resp.review_data.review_image_url !== '' ? `
+                                    <div class="review-image d-flex" style="max-height: 13em; display: flex; align-items: center; justify-content: center; height: 250px;">
+                                        <img class="img-thumbnail rounded mx-auto d-flex" style="max-width: 100%; max-height: 100%;" src="${resp.review_data.review_image_url}" alt="review image">
+                                    </div>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="my-0" />
+                        `;
+
+                        $('#form-for-reviews').remove();
+                        $('#form-for-reviews-hr').remove();
+                        $(html).insertAfter('#users_reviews');
+                    },
+                    error: function(err) {
+                        var errorMessage = response.message; 
+                        $('#error-message').text(errorMessage); 
+                        
+                        $('#review-form textarea').val('');
+                        $('#review-form input[type="number"]').val('');
+                        $('#review-form input[type="file"]').val('');
+                    }
+                });
+            });
+        });
+    </script>
+  {% endblock scripts %}
  
