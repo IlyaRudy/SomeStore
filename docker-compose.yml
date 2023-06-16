@@ -1,0 +1,41 @@
+version: "3.9"
+
+services:
+  somestore_postgres:
+    image: postgres:latest
+    container_name: somestore_postgres
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    env_file:
+      - .env
+  somestore:
+    build: 
+      dockerfile: Dockerfile
+      context: .
+    container_name: somestore
+    depends_on:
+      - somestore_postgres
+    volumes:
+      - static_volume:/app/static/
+      - media_volume:/app/media/
+    env_file:
+      - .env
+    command: >
+      bash -c "./manage.py collectstatic --noinput && ./manage.py migrate && gunicorn -b 0.0.0.0:8000 somestore.wsgi:application"
+  nginx:
+    build:
+      dockerfile: ./Dockerfile
+      context: ./docker/nginx/
+    container_name: somestore_nginx
+    image: somestore_nginx
+    volumes:
+      - static_volume:/app/static/
+      - media_volume:/app/media/
+    depends_on:
+      - somestore
+    ports:
+      - "80:80"
+
+volumes:
+  static_volume:
+  media_volume:
