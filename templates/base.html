@@ -62,8 +62,8 @@
         </div>
 
         <div class="col-12 col-lg-8" id="nav_search">
-          <form class="">
-            <input type="search" class="form-control" placeholder="Szukaj..." aria-label="Search" />
+          <form action="{% url 'search' %}" method="get">
+            <input id="query" name="query" type="search" class="form-control" {% if request.GET.q %}value="{{ request.GET.query }}"{% else %} placeholder="Szukaj..." {% endif %} aria-label="Search" />
           </form>
         </div>
 
