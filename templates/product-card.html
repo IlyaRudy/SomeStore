@@ -1,10 +1,10 @@
-{% block product_card %}  
+
 <!-- product card -->
 
   <div class="product-card">
     <a href="{{ product.get_absolute_url }}" class="text-decoration-none text-dark">
       <div class="product-thumb">
-        <div class="product-img"><img src="{{ product.product_main_img.url }}" alt="{{ product.title }}"></div>
+        <div class="product-img"><img src="{% if product.product_main_img.url %}{{ product.product_main_img.url }} {% else %} {{ product.product_main_img }}{% endif %}" alt="{{ product.title }}"></div>
         <a href="#" class="text-decoration-none text-dark"><i class=" bi bi-heart" id="icon-heart"></i></a>
         <div class="modal-quick-view">
           <button type="button" data-bs-toggle="modal" data-bs-target="#modal-quick-view{{ forloop.counter }}">
@@ -31,20 +31,40 @@
                 {% with main_counter=forloop.counter %}
                 <div class="carousel-indicators">
                   <button type="button" data-bs-target="#modal-quick-view-indicators{{ main_counter }}" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 0"></button>
+                  {% if product.thumbnail_images.all %}
                   {% for _ in product.thumbnail_images.all %}
                   <button type="button" data-bs-target="#modal-quick-view-indicators{{ main_counter }}" data-bs-slide-to="{{ forloop.counter }}" aria-label="Slide {{ forloop.counter }}"></button>
                   {% endfor %}
+                  {% else %}
+                  {% for _ in product.thumbnail_images %}
+                  <button type="button" data-bs-target="#modal-quick-view-indicators{{ main_counter }}" data-bs-slide-to="{{ forloop.counter }}" aria-label="Slide {{ forloop.counter }}"></button>
+                  {% endfor %}
+                  {% endif %}
+
+
                 </div>
                 {% endwith %}
                 <div class="carousel-inner">
                   <div class="carousel-item active">
-                    <img src="{{ product.product_main_img.url }}" alt="{{ product.title }}">
+                    <img src="{% if product.product_main_img.url %}{{ product.product_main_img.url }} {% else %} {{ product.product_main_img }}{% endif %}" alt="{{ product.title }}">
                   </div>
-                  {% for img in product.thumbnail_images.all %}
+                  {% if product.thumbnail_images.all %}
+
+                  {% for img in  product.thumbnail_images.all %}
                     <div class="carousel-item">
                       <img src="{{ img.image.url }}" alt="{{ product.title }}">
                     </div>
                   {% endfor %}
+
+                  {% else %}
+
+                  {% for img in  product.thumbnail_images %}
+                  <div class="carousel-item">
+                    <img src="{{ img.image }}" alt="{{ product.title }}">
+                  </div>
+                  {% endfor %}
+
+                  {% endif %}
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#modal-quick-view-indicators{{ forloop.counter }}" data-bs-slide="prev">
                   <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -81,4 +101,3 @@
     </div>
   </div>
 <!-- /product card -->
-{% endblock product_card %}

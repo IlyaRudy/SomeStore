@@ -1,6 +1,6 @@
 from django_elasticsearch_dsl import Document, fields
 from django_elasticsearch_dsl.registries import registry
-from main.models import Product
+from main.models import Product, ImageModel
 from category.models import Category, SubCategory
 
 @registry.register_document
@@ -10,6 +10,11 @@ class ProductDocument(Document):
     })
     main_category = fields.ObjectField(properties={
         'title': fields.TextField(),
+    })
+    get_absolute_url = fields.TextField(attr='get_absolute_url')
+
+    thumbnail_images = fields.NestedField(properties={
+        'image': fields.FileField(),
     })
 
     class Index:
@@ -39,3 +44,6 @@ class ProductDocument(Document):
             return related_instance.product_set.all()
         elif isinstance(related_instance, Category):
             return related_instance.product_set.all()
+        elif isinstance(related_instance, ImageModel):
+            return related_instance.product()
+        
