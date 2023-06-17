@@ -1,0 +1,58 @@
+version: "3.9"
+
+services:
+  somestore_postgres:
+    image: postgres:latest
+    container_name: somestore_postgres
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    env_file:
+      - .env
+  esearch:
+    container_name: search
+    image: elasticsearch:7.17.10
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    environment:
+      - discovery.type=single-node
+    volumes:
+      - data1:/usr/share/elasticsearch/data
+  somestore:
+    build: 
+      dockerfile: Dockerfile
+      context: .
+    container_name: somestore
+    depends_on:
+      - esearch
+      - somestore_postgres
+    volumes:
+      - static_volume:/app/static/
+      - media_volume:/app/media/
+      - ./:/app
+    env_file:
+      - .env
+    command: >
+      bash -c "./manage.py collectstatic --noinput &&
+      ./manage.py migrate && 
+      gunicorn -b 0.0.0.0:8000 --reload somestore.wsgi:application"
+  nginx:
+    build:
+      dockerfile: ./Dockerfile
+      context: ./docker/nginx/
+    container_name: somestore_nginx
+    image: somestore_nginx
+    volumes:
+      - static_volume:/app/static/
+      - media_volume:/app/media/
+    depends_on:
+      - somestore
+    ports:
+      - "80:80"
+  
+volumes:
+  static_volume:
+  media_volume:
+  data1:
+

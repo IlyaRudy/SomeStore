@@ -34,17 +34,20 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    # django default apps #
+    # django default apps 
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # project apps #
+    # External apps 
+    'django_elasticsearch_dsl',
+    # project apps 
     'main',
     'category',
     'accounts',
+    'search',
 ]
 
 MIDDLEWARE = [
@@ -84,10 +87,15 @@ WSGI_APPLICATION = 'somestore.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'HOST': os.getenv('POSTGRES_HOST', 'localhost'),
+        'PORT': os.getenv('POSTGRES_PORT', 5432),
+        'USER': os.getenv('POSTGRES_USER', 'ir'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+        'NAME': os.getenv('POSTGRES_DB', "db01")
     }
 }
+
 
 
 # Password validation
@@ -121,14 +129,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = 'static'
+MEDIA_ROOT = 'media'
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-STATICFILES_DIRS = [
-    BASE_DIR / 'static',
-]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -139,3 +144,10 @@ LOGIN_REDIRECT_URL = reverse_lazy('main:index')
 LOGOUT_REDIRECT_URL = reverse_lazy('main:index')
 
 AUTH_USER_MODEL = 'main.User'
+
+ELASTICSEARCH_PORT = os.getenv('ELASTICSEARCH_PORT', 9200)
+ELASTICSEARCH_DSL = {
+    "default": {
+        "hosts": f"esearch:{ELASTICSEARCH_PORT}",
+    },
+}
