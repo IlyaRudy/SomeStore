@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+
+  {% block content %}
+  <!-- main content -->
+  <main class="container mt-5 mt-md-3 p-sm-0" id="search">
+    {% for product in products %}
+    <h2>{{ product.title }}</h2>
+    <p>Price: {{ product.price }}</p>
+    <p>Card title: {{ product.card_title }}</p>
+    <p>Brand Name: {{ product.brand_name }}</p>
+    <p>Url main img: {{ product.product_main_img }}</p>
+    <p>Description: {{ product.description }}</p>
+    <p>Category name: {{ product.main_category.title }}</p>
+    <p>Subcategory name: {{ product.main_subcategory.title }}</p>
+    {% empty %}
+    <h4>Nic nie znaleziono</h4>
+    {% endfor %}
+ </main>
+  <!-- /main content -->
+  {% endblock content %}
+
+ 

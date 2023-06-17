@@ -4,7 +4,8 @@ from django.urls import reverse
 from category.models import SubCategory, Category
 from django.utils.text import slugify
 from django.contrib.auth.models import AbstractUser
-# Create your models here.
+
+
 def upload_to(instance, filename):
     return 'products/{0}/{1}/{2}/{3}'.format(instance.main_category, instance.main_subcategory, instance.title, filename)
 
@@ -52,7 +53,7 @@ class ImageModel(models.Model):
         super().save(*args, **kwargs)
 
 class Review(models.Model):
-
+    """ Review model for users review """
     product = models.ForeignKey(Product, on_delete=models.CASCADE, blank=True, null=True, related_name='review_product') 
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Автор отзыва', blank=True, null=True)
     five_star_rating =  models.BigIntegerField('пятизвездочный рейтинг')

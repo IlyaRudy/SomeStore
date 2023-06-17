@@ -34,17 +34,20 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    # django default apps #
+    # django default apps 
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # project apps #
+    # External apps 
+    'django_elasticsearch_dsl',
+    # project apps 
     'main',
     'category',
     'accounts',
+    'search',
 ]
 
 MIDDLEWARE = [
@@ -141,3 +144,10 @@ LOGIN_REDIRECT_URL = reverse_lazy('main:index')
 LOGOUT_REDIRECT_URL = reverse_lazy('main:index')
 
 AUTH_USER_MODEL = 'main.User'
+
+ELASTICSEARCH_PORT = os.getenv('ELASTICSEARCH_PORT', 9200)
+ELASTICSEARCH_DSL = {
+    "default": {
+        "hosts": f"esearch:{ELASTICSEARCH_PORT}",
+    },
+}
