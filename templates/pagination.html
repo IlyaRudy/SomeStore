@@ -1,5 +1,4 @@
-{% block pagination %}
-<!-- pagination -->
+<!-- pagination 
 <div class="pagination d-flex container justify-content-center justify-content-lg-end">
   <div class="pagination-list">
     <a href="#" class="first">&laquo;</a>
@@ -12,5 +11,41 @@
     <a href="#" class="last">&raquo;</a>
   </div>
 </div>
-<!-- /pagintation -->  
-{% endblock pagination %}
+/pagintation -->  
+
+<!-- Before include, override the object_list variable with the model_list in use -->
+<div class="container mt-5 d-inline-flex justify-content-center justify-content-lg-end">
+  <div id="pagination">
+      <ul class="pagination justify-content-center">
+           {% if object_list.has_previous %}
+               <li class="page-item">
+                  <a class="page-link" href="{{ request.path }}?page={{object_list.previous_page_number}}"><</a>
+              </li>
+           {% else %}
+              <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true"><</a>
+              </li>
+           {% endif %}
+           {% for i in object_list.paginator.page_range %}
+              {% if object_list.number == i %}
+                  <li class="page-item active">
+                    <a class="page-link" href="{{ request.path }}?page={{ i }}">{{ i }}</a>
+                  </li>
+              {% else %}
+                  <li class="page-item">
+                    <a class="page-link" href="{{ request.path }}?page={{ i }}">{{ i }}</a>
+                  </li>
+              {% endif %}
+           {% endfor %}
+           {% if object_list.has_next %}
+              <li class="page-item">
+                <a class="page-link" href="{{ request.path }}?page={{object_list.next_page_number}}">></a>
+              </li>
+            {% else %}
+                <li class="page-item disabled">
+                  <a class="page-link" href="#" tabindex="-1" aria-disabled="true">></a>
+                </li>
+            {% endif %}
+      </ul>
+  </div>
+</div>
