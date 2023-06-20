@@ -29,14 +29,16 @@
     </div>
     <div class="container main_cards">
       <div class="row">
-        {% for product in all_products %}
+        {% for product in product_list %}
           <div class="col-12 col-lg-3 col-sm-6">
             {% include 'product-card.html' %}
           </div>
         {% endfor %}
       </div>
     </div>
-    {% include "pagination.html" %}
+    {% with object_list=product_list %}
+      {% include "pagination.html" %}
+    {% endwith %}
   </main>
   <!-- /main content -->
   {% endblock content %}

@@ -28,7 +28,10 @@ services:
       - esearch
       - somestore_postgres
     volumes:
-      - static_volume:/app/static/
+      - ./static/css:/app/static/css
+      - ./static/font:/app/static/font
+      - ./static/img:/app/static/img
+      - ./static/js:/app/static/js
       - media_volume:/app/media/
       - ./:/app
     env_file:
@@ -44,7 +47,10 @@ services:
     container_name: somestore_nginx
     image: somestore_nginx
     volumes:
-      - static_volume:/app/static/
+      - ./static/css:/app/static/css
+      - ./static/font:/app/static/font
+      - ./static/img:/app/static/img
+      - ./static/js:/app/static/js
       - media_volume:/app/media/
     depends_on:
       - somestore
@@ -52,7 +58,6 @@ services:
       - "80:80"
   
 volumes:
-  static_volume:
   media_volume:
   data1:
 

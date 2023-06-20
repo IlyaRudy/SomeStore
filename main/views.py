@@ -4,11 +4,27 @@ from django.shortcuts import get_object_or_404
 from django.views.generic import DetailView, ListView
 from .models import Product, Review
 from .forms import ReviewForm
-from django.shortcuts import redirect, render
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 class MainListView(ListView):
     model = Product
     template_name = "index.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        #Getting products in the current subcategory for pagination
+        context['product_list'] = Product.objects.all()
+        paginator = Paginator(context['product_list'], 2)
+        page = self.request.GET.get('page')
+        try:
+            context['product_list'] = paginator.page(page)
+        except PageNotAnInteger:
+            context['product_list'] = paginator.page(1)
+        except EmptyPage:
+            context['product_list'] = paginator.page(paginator.num_pages)    
+
+        return context
     
 
 class ProductDetailView(DetailView):
@@ -60,7 +76,7 @@ class ProductDetailView(DetailView):
     
     def get(self, request, product_slug):
         form_submitted = False
-        author = request.user
+        author = request.user if request.user.is_authenticated else None
         product = get_object_or_404(Product, product_slug=product_slug) 
         if Review.objects.filter(product=product, author=author).exists():
             form_submitted = True

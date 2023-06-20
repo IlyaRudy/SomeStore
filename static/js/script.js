@@ -112,3 +112,35 @@ icon_hearts.forEach(function(icon_heart) {
     this.classList.add('bi-heart');
   });
 });
+
+//Ajax pagination
+function ajaxPagination() {
+  $('#pagination a.page-link').each((index, el) => {
+    $(el).click((e) => {
+      e.preventDefault()
+      let page_url = $(el).attr('href')
+      $.ajax({
+        url: page_url,
+        type: 'GET',
+        error: err => {
+          console.log(err);
+          console.log('плохо');
+        },
+        success: (data) => {
+          $('.main_cards').empty()
+          $('.main_cards').append ( $(data).find('.main_cards').html() )
+
+          $('#pagination').empty()
+          $('#pagination').append( $(data).find('#pagination').html() )
+        }
+      })
+    })
+  })
+};
+
+$(document).ready(function() {
+  ajaxPagination();
+});
+$(document).ajaxStop(function() {
+  ajaxPagination()
+});
