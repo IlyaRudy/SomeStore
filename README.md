@@ -12,14 +12,13 @@ The goal of this project is to develop a fully functional online store using the
 - The Django framework is utilized for creating models for categories, subcategories, and products.
 - An admin panel has been integrated to facilitate the creation of categories, subcategories, and products.
 - The website is responsive and optimized for various devices, ensuring a great user experience across different platforms.
+- **Product Search**: Implement a search functionality that allows users to quickly find desired products.
+- **Proper Product Categorization**: Enhance the display of products based on selected categories and subcategories.
+- **Reviews Section**: Create a reviews section where users can leave their feedback and reviews for products.
 
 ### Future Development Plans
 
 In the further development of my online store, I plan to implement the following features:
-
-- **Product Search**: Implement a search functionality that allows users to quickly find desired products.
-- **Proper Product Categorization**: Enhance the display of products based on selected categories and subcategories.
-- **Reviews Section**: Create a reviews section where users can leave their feedback and reviews for products.
 - **User Profile Page**: Develop a user profile page where users can edit their profile information and view their purchase history.
 - **Shopping Cart and Payment**: Implement a shopping cart functionality for adding products and enable payment options through web services.
 - **Background Tasks with Celery**: Integrate background tasks using Celery for handling asynchronous tasks such as notifications and processing long-running operations.
