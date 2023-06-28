@@ -139,3 +139,5 @@ GitHub.sublime-settings
 
 #PostgreSQLDB
 data
+
+static/admin

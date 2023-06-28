@@ -7,9 +7,10 @@ from search.views import SearchView
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('main.urls')),
     path('category/', include('category.urls')),
     path('account/', include('accounts.urls')),
+    path('cart/', include('cart.urls')),
     path('search/', SearchView.as_view(), name='search'),
+    path('', include('main.urls')),
+    path('admin/', admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

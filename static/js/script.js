@@ -120,6 +120,9 @@ function ajaxPagination() {
       e.preventDefault()
       let page_url = $(el).attr('href')
       $.ajax({
+        headers: {
+          "X-CSRFToken": '{{csrf_token}}'
+        },
         url: page_url,
         type: 'GET',
         error: err => {
@@ -133,14 +136,119 @@ function ajaxPagination() {
           $('#pagination').empty()
           $('#pagination').append( $(data).find('#pagination').html() )
         }
-      })
-    })
-  })
+      });
+    });
+  });
 };
 
 $(document).ready(function() {
   ajaxPagination();
 });
+
 $(document).ajaxStop(function() {
-  ajaxPagination()
+  ajaxPagination(); 
+});
+
+//Ajax add to cart
+const ajaxAddToCart = () => {
+  $(document).off("click", ".card-add").on("click", ".card-add", function(e) {
+    e.preventDefault();
+    let currentElement = $(this);
+    let url = currentElement.data("url");
+    $.ajax({
+      headers: {
+        "X-CSRFToken": csrfToken
+      },
+      url: url,
+      method: 'POST',
+      type: 'POST',
+      error: err => {
+        console.log(err);
+      },
+      success: (data) => {
+        if (!$('.navbar-pc__notify').length) {
+          $(`<span class="navbar-pc__notify">${data.cart_length}</span>`).appendTo('#dropdownCart');
+        }
+        else {
+          $('.navbar-pc__notify').text(data.cart_length)
+        }
+        currentElement.prop("hidden", true);
+        currentElement.next(".quantity").removeAttr("hidden");
+        currentElement.next(".quantity").find(".product_quantity").text('1') 
+      }
+    });
+  });
+}
+
+
+
+//Ajax add quntity to cart
+const ajaxQuantityPlusAddToCart = () => {
+  $(document).off("click", ".quantity__minus").on("click", ".quantity__minus", function(e) {
+    e.preventDefault();
+    let currentElement = $(this);
+    let url = currentElement.data("url");
+    let quantityBlock = currentElement.parent(".quantity");
+    let bottomDetailsBlock = quantityBlock.closest(".product-bottom-details")
+    let quantity__minus = -1;
+    $.ajax({
+      headers: {
+        "X-CSRFToken": csrfToken
+      },
+      url: url,
+      method: 'POST',
+      data: {
+        'quantity': quantity__minus,
+      },
+      type: 'POST',
+      error: err => {
+        console.log(err);
+      },
+      success: (data) => {
+        if (data.product_quantity < 1) {
+          quantityBlock.prop("hidden", true);
+          bottomDetailsBlock.find('.card-add').removeAttr("hidden");
+        }
+        else {
+          productQuantity = quantityBlock.find(".product_quantity");
+          productQuantity.text(`${data.product_quantity}`);
+        }
+        $('.navbar-pc__notify').text(data.cart_length);
+      }
+    });
+  });
+}
+
+const ajaxQuantityMinusAddToCart = () => {
+  $(document).off("click", ".quantity__plus").on("click", ".quantity__plus", function(e) {
+    e.preventDefault();
+    let currentElement = $(this);
+    let url = currentElement.data("url");
+    let productQuantity = currentElement.parent(".quantity").find(".product_quantity");
+    let quantity__plus = 1;
+    $.ajax({
+      headers: {
+        "X-CSRFToken": csrfToken
+      },
+      url: url,
+      method: 'POST',
+      data: {
+        'quantity': quantity__plus,
+      },
+      type: 'POST',
+      error: err => {
+        console.log(err);
+      },
+      success: (data) => {
+        productQuantity.text(`${data.product_quantity}`);
+        $('.navbar-pc__notify').text(data.cart_length);
+      }
+    });
+  });
+}
+
+$(document).ready(() => {
+  ajaxAddToCart();
+  ajaxQuantityPlusAddToCart();
+  ajaxQuantityMinusAddToCart();
 });

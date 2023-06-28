@@ -47,10 +47,7 @@ services:
     container_name: somestore_nginx
     image: somestore_nginx
     volumes:
-      - ./static/css:/app/static/css
-      - ./static/font:/app/static/font
-      - ./static/img:/app/static/img
-      - ./static/js:/app/static/js
+      - ./static:/app/static
       - media_volume:/app/media/
     depends_on:
       - somestore

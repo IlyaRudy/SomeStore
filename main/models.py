@@ -18,16 +18,21 @@ class User(AbstractUser):
 
 
 class Product(models.Model):
-    title = models.CharField('Название продукта', max_length=100)
-    product_slug = models.SlugField(unique=True, blank=True, editable=False)
-    card_title = models.CharField('Титульник карточки', max_length=100)
-    price = models.IntegerField('Цена')
-    brand_name = models.CharField('Название бренда', max_length=100 )
-    main_subcategory = models.ForeignKey(SubCategory, on_delete=models.CASCADE, null=True, default='Subcategory') 
-    main_category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, default='Main category')
-    description = models.TextField('Описание')
-    product_main_img = models.ImageField('Главное изображение продукта', upload_to=upload_to)
+    title = models.CharField(max_length=100, db_index=True, verbose_name='Product title')
+    product_slug = models.SlugField(unique=True, db_index=True, editable=False)
+    card_title = models.CharField(max_length=100, blank=True, default='Card title', verbose_name='Card title')
+    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Price')
+    brand_name = models.CharField(max_length=100, blank=True, default='Brand name', verbose_name='Brand name')
 
+    main_subcategory = models.ForeignKey(SubCategory, on_delete=models.CASCADE, null=True, default='Subcategory', verbose_name='SubCategory') 
+    main_category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, default='Category', verbose_name='Category')
+
+    description = models.TextField(max_length=1500, blank=True, default='Description', verbose_name='Description')
+    product_main_img = models.ImageField(verbose_name='Product main image', upload_to=upload_to)
+    available = models.BooleanField(default=True, verbose_name='Available')
+    created = models.DateTimeField(auto_now_add=True, verbose_name='Created time')
+    uploaded = models.DateTimeField(auto_now=True, verbose_name='Uploaded time')
+    
     def save(self, *args, **kwargs):
         self.product_slug = slugify(self.title)
         if self.title:

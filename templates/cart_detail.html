@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+
+{% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
+
+{% block content %}
+<h1>Корзина покупок</h1>
+<table class="cart">
+  <thead>
+    <tr>
+      <th>Картинка</th>
+      <th>Товар</th>
+      <th>Обновить кол-во</th>
+      <th>Удалить</th>
+      <th>Кол-во</th>
+      <th>Цена за шт</th>
+      <th>Общая стоимость</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in cart %}
+      {% with product=item.product %}
+        <tr>
+          <td>
+            <a href="{{ product.get_absolute_url }}">
+              <img src="{{ product.product_main_img.url }}">
+            </a>
+          </td>
+          <td>{{ product.title }}</td>
+          <td>
+          </td>
+          <td><a href="{% url 'cart:cart_remove' product.id %}">Удалить</a></td>
+          <td>
+            {{ item.quantity }}
+          </td>
+          <td class="num">${{ item.price }}</td>
+          <td class="num">${{ item.total_price }}</td>
+        </tr>
+      {% endwith %}
+    {% endfor %}
+    <tr class="total">
+      <td>Всего</td>
+      <td colspan="4"></td>
+      <td class="num">${{ cart.get_total_price }}</td>
+    </tr>
+  </tbody>
+</table>
+<p class="text-right">
+  <a href="{% url 'main:index' %}" class="button light">В магазин</a>
+  <a href="#" class="button">Оформить заказ</a>
+</p>
+{% endblock content %}

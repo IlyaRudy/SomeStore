@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'category',
     'accounts',
     'search',
+    'cart',
 ]
 
 MIDDLEWARE = [
@@ -69,11 +70,13 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                'main.context_processors.Category_Subcategory_Product',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'main.context_processors.product',
+                'category.context_processors.category_subcategory',
+                'cart.context_processors.cart',
             ],
         },
     },
@@ -151,3 +154,5 @@ ELASTICSEARCH_DSL = {
         "hosts": f"esearch:{ELASTICSEARCH_PORT}",
     },
 }
+
+CART_SESSION_ID = 'cart'
