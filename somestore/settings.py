@@ -143,8 +143,7 @@ MEDIA_ROOT = 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = reverse_lazy('main:index')
-LOGOUT_REDIRECT_URL = reverse_lazy('main:index')
+LOGIN_URL = reverse_lazy('accounts:signup-login')
 
 AUTH_USER_MODEL = 'main.User'
 
@@ -154,5 +153,3 @@ ELASTICSEARCH_DSL = {
         "hosts": f"esearch:{ELASTICSEARCH_PORT}",
     },
 }
-
-CART_SESSION_ID = 'cart'

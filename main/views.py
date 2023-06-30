@@ -5,6 +5,7 @@ from django.views.generic import DetailView, ListView
 from .models import Product, Review
 from .forms import ReviewForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Avg
 
 class MainListView(ListView):
     model = Product
@@ -87,7 +88,22 @@ class ProductDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         product = self.get_object() 
         context['product'] = product
-        context['reviews'] = product.review_product.all().order_by('-created_date')
+
+        reviews = product.review_product.all().order_by('-created_date')
+        if reviews:
+            average_rating = reviews.aggregate(Avg('five_star_rating'))
+            average_rating_value = average_rating['five_star_rating__avg']
+
+            average_rating_procent = reviews.aggregate(Avg('five_star_rating_procent'))
+            average_rating_procent_value = average_rating_procent['five_star_rating_procent__avg']
+        else:
+            average_rating_procent_value = 0
+            average_rating_value = 0.0
+
+        context['reviews'] = reviews
+        context['reviews_average_rating_procent_value'] = average_rating_procent_value
+        context['reviews_average_rating_value'] = average_rating_value
+
         form = ReviewForm()
         context['form'] = form
         context['form_submitted'] = self.form_submitted

@@ -4,7 +4,6 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth import authenticate, login, logout
 import json
 from accounts.forms import UserRegistration
-from django.contrib.auth.models import User
 
 
 class signup_login_view(LoginView):
@@ -47,6 +46,13 @@ def register_user(request):
             password1 = request.POST['password1']
             user = authenticate(username=username, password=password1)
             login(request, user)
+
+            if 'cart' in request.session:
+                user.cart = request.session['cart']
+                user.save()
+                del request.session['cart']
+                
+
             resp['status']='success'
         else:
             resp['msg'] = list(form.errors.values())

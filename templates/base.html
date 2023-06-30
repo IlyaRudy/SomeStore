@@ -72,7 +72,7 @@
             <div class="row">
 
               <!-- account -->
-              <div class="col-6">
+              <div class="col-4">
                 <div class="dropdown">
                   <a href="#" class="d-block link-dark text-decoration-none" id="dropdownUser"
                     data-bs-toggle="dropdown" aria-expanded="false">
@@ -97,13 +97,25 @@
               </div>
               <!-- /account -->
 
+              <!-- favorite -->
+              <div class="col-4">
+                <div class="dropdown">
+                  <a href="#" class="d-flex text-decoration-none">
+                    <i class="bi bi-heart-fill fs-4"></i>
+                    <span class="navbar-heart__notify" hidden>
+                      {{ total_items }}
+                    </span>
+                  </a>
+                </div>
+              </div>
+              <!-- /favorite -->
+
               <!-- cart -->
               {% with total_items=cart|length%}
-              <div class="col-6">
+              <div class="col-4">
                 <div class="dropdown">
                   <a href="{% url 'cart:cart_detail' %}" class="d-flex text-decoration-none" id="dropdownCart">
-                    <i class="bi bi-cart-fill fs-4">
-                    </i>
+                    <i class="bi bi-cart-fill fs-4"></i>
                     {% if cart|length %}
                     <span class="navbar-pc__notify">
                       {{ total_items }}

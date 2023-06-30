@@ -12,6 +12,7 @@
           </button>
         </div>
       </div>
+      
       <div class="product-details">
         <h5 class="price">{{ product.price }} zł</h5>
         <a href="{{ product.get_absolute_url }}" class="card-title text-decoration-none">{{ product.card_title|truncatechars:20 }}</a>
@@ -21,17 +22,19 @@
       <button class="card-add" data-url="{% url 'cart:cart_add' product.id %}" data-product-id="{{ product.id }}"{% if product.id|stringformat:"s" in cart.get_products_ids %}hidden{% endif %}>Dodaj do koszyka</button>
       <div class="quantity" {% if product.id|stringformat:"s" not in cart.get_products_ids %}hidden{% endif %}>
         <button type="button" class="quantity__minus" data-url="{% url 'cart:cart_add' product.id %}">
-          <i class="fa-solid fa-minus" style="color: black;"></i>
+          <i class="fa-solid fa-minus"></i>
         </button> 
         <div class="product_quantity">
           {% product_quantity cart product.id %}
         </div>
         <button type="button" class="quantity__plus" data-url="{% url 'cart:cart_add' product.id %}">
-          <i class="fa-solid fa-plus" style="color: black;"></i>
+          <i class="fa-solid fa-plus"></i>
         </button>
       </div>
     </div>
   </div>
+
+  <!-- modal -->
   <div class="modal fade" id="modal-quick-view{{ forloop.counter }}" tabindex="-1" aria-labelledby="modal-quick-view" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
       <div class="modal-content">
@@ -96,7 +99,18 @@
                 <div class="row quick-view-rs">
                   <div class="col-10">
                     <div class="product-bottom-details text-center">
-                      <button class="card-add" data-url="{% url 'cart:cart_add' product.id %}" data-csrf-token={% csrf_token %}>Dodaj do koszyka</button>
+                      <button class="card-add" data-url="{% url 'cart:cart_add' product.id %}" data-product-id="{{ product.id }}"{% if product.id|stringformat:"s" in cart.get_products_ids %}hidden{% endif %}>Dodaj do koszyka</button>
+                      <div class="quantity" {% if product.id|stringformat:"s" not in cart.get_products_ids %}hidden{% endif %}>
+                        <button type="button" class="quantity__minus" data-url="{% url 'cart:cart_add' product.id %}">
+                          <i class="fa-solid fa-minus"></i>
+                        </button> 
+                        <div class="product_quantity">
+                          {% product_quantity cart product.id %}
+                        </div>
+                        <button type="button" class="quantity__plus" data-url="{% url 'cart:cart_add' product.id %}">
+                          <i class="fa-solid fa-plus"></i>
+                        </button>
+                      </div>  
                     </div>
                   </div>
                   <div class="col-2 position-relative p-0 justify-content-start">
@@ -111,5 +125,6 @@
       </div>
     </div>
   </div>
+  <!-- /modal -->
   
 <!-- /product card -->

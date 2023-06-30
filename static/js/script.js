@@ -166,15 +166,38 @@ const ajaxAddToCart = () => {
         console.log(err);
       },
       success: (data) => {
+        // Change cart notify on icon
         if (!$('.navbar-pc__notify').length) {
           $(`<span class="navbar-pc__notify">${data.cart_length}</span>`).appendTo('#dropdownCart');
         }
         else {
-          $('.navbar-pc__notify').text(data.cart_length)
+          $('.navbar-pc__notify').text(data.cart_length);
         }
+        let quantityBlock = currentElement.next(".quantity");
+        
+
         currentElement.prop("hidden", true);
-        currentElement.next(".quantity").removeAttr("hidden");
-        currentElement.next(".quantity").find(".product_quantity").text('1') 
+        quantityBlock.removeAttr("hidden");
+        quantityBlock.find(".product_quantity").text('1')
+
+        if (currentElement.closest('.product-card').length > 0) {
+          // Change the quick view
+          let quickViewProductBottomDetails = currentElement.closest('.product-card').next().find('.product-bottom-details');
+          let quickViewQuantityBlock = quickViewProductBottomDetails.find(".quantity");
+
+          quickViewProductBottomDetails.find(".card-add").prop("hidden", true);
+          quickViewQuantityBlock.removeAttr("hidden");
+          quickViewQuantityBlock.find(".product_quantity").text('1'); 
+        } else {
+          // Change the product card
+          let productBottomDetails = currentElement.closest('.modal').prev('.product-card').find('.product-bottom-details');
+          let quantityBlock = productBottomDetails.find(".quantity");
+
+          productBottomDetails.find(".card-add").prop("hidden", true);
+          quantityBlock.removeAttr("hidden");
+          quantityBlock.find(".product_quantity").text('1'); 
+        }
+        
       }
     });
   });
@@ -183,13 +206,13 @@ const ajaxAddToCart = () => {
 
 
 //Ajax add quntity to cart
-const ajaxQuantityPlusAddToCart = () => {
+const ajaxQuantityMinusAddToCart = () => {
   $(document).off("click", ".quantity__minus").on("click", ".quantity__minus", function(e) {
     e.preventDefault();
     let currentElement = $(this);
     let url = currentElement.data("url");
     let quantityBlock = currentElement.parent(".quantity");
-    let bottomDetailsBlock = quantityBlock.closest(".product-bottom-details")
+    let bottomDetailsBlock = quantityBlock.closest(".product-bottom-details");
     let quantity__minus = -1;
     $.ajax({
       headers: {
@@ -208,23 +231,60 @@ const ajaxQuantityPlusAddToCart = () => {
         if (data.product_quantity < 1) {
           quantityBlock.prop("hidden", true);
           bottomDetailsBlock.find('.card-add').removeAttr("hidden");
+
+          if (currentElement.closest('.product-card').length > 0) {
+            // Change the quick view
+            let quickViewProductBottomDetails = currentElement.closest('.product-card').next().find('.product-bottom-details');
+  
+            quickViewProductBottomDetails.find(".quantity").prop("hidden", true);
+            quickViewProductBottomDetails.find(".card-add").removeAttr("hidden");
+          } else {
+            // Change the product card
+            let productBottomDetails = currentElement.closest('.modal').prev().find('.product-bottom-details');
+
+            productBottomDetails.find(".quantity").prop("hidden", true);
+            productBottomDetails.find(".card-add").removeAttr("hidden");
+          }
+          
+          
         }
         else {
-          productQuantity = quantityBlock.find(".product_quantity");
+          let productQuantity = quantityBlock.find(".product_quantity");
+
           productQuantity.text(`${data.product_quantity}`);
+
+          if (currentElement.closest('.product-card').length > 0) {
+            // Change the quick view
+            let quickViewProductBottomDetails = currentElement.closest('.product-card').next().find('.product-bottom-details');
+  
+            quickViewProductBottomDetails.find('.product_quantity').text(`${data.product_quantity}`);
+          } else {
+            // Change the product card
+            let productBottomDetails = currentElement.closest('.modal').prev().find('.product-bottom-details');
+
+            productBottomDetails.find('.product_quantity').text(`${data.product_quantity}`);
+          }
+          
+          
         }
-        $('.navbar-pc__notify').text(data.cart_length);
+        if (data.cart_length < 1) {
+          $('.navbar-pc__notify').remove();
+        }
+        else {
+          $('.navbar-pc__notify').text(data.cart_length);
+        }
       }
     });
   });
 }
 
-const ajaxQuantityMinusAddToCart = () => {
+const ajaxQuantityPlusAddToCart = () => {
   $(document).off("click", ".quantity__plus").on("click", ".quantity__plus", function(e) {
     e.preventDefault();
     let currentElement = $(this);
     let url = currentElement.data("url");
     let productQuantity = currentElement.parent(".quantity").find(".product_quantity");
+    let quickViewProductBottomDetails = currentElement.closest('.product-card').next().find('.product-bottom-details');
     let quantity__plus = 1;
     $.ajax({
       headers: {
@@ -241,6 +301,19 @@ const ajaxQuantityMinusAddToCart = () => {
       },
       success: (data) => {
         productQuantity.text(`${data.product_quantity}`);
+
+        if (currentElement.closest('.product-card').length > 0) {
+          // Change the quick view
+          let quickViewProductBottomDetails = currentElement.closest('.product-card').next().find('.product-bottom-details');
+
+          quickViewProductBottomDetails.find('.product_quantity').text(`${data.product_quantity}`);
+        } else {
+          // Change the product card
+          let productBottomDetails = currentElement.closest('.modal').prev().find('.product-bottom-details');
+
+          productBottomDetails.find('.product_quantity').text(`${data.product_quantity}`);
+        }
+        
         $('.navbar-pc__notify').text(data.cart_length);
       }
     });

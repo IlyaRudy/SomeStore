@@ -14,7 +14,7 @@ def upload_to_images(instance, filename):
 
 
 class User(AbstractUser):
-    pass
+    cart = models.JSONField(default=dict, blank=True, null=True)
 
 
 class Product(models.Model):

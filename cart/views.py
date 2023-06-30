@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from main.models import Product
 from .cart import Cart
@@ -19,7 +20,7 @@ def cart_add(request, product_id):
     else:
         cart.add(product=product)
     cart_length = cart.__len__()
-    data['cart_length'] = cart_length
+    data['cart_length'] = cart_length   
     return JsonResponse(data)
 
 
@@ -29,7 +30,6 @@ def cart_remove(request, product_id):
     cart.remove(product)
     return redirect('cart:cart_detail')
 
-
+@login_required
 def cart_detail(request):
-    cart = Cart(request)
-    return render(request, 'cart_detail.html', {'cart': cart})
+    return render(request, 'cart_detail.html')

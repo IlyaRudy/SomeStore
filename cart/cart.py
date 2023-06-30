@@ -10,11 +10,13 @@ class Cart(object):
         Initialize cart
         """
         self.session = request.session
-        cart = self.session.get(settings.CART_SESSION_ID)
-        if not cart:
-            # Save an EMPTY cart in a session
-            cart = self.session[settings.CART_SESSION_ID] = {}
-        self.cart = cart
+        self.user = request.user if request.user.is_authenticated else "_AnonymousUser"
+        if request.user.is_authenticated:
+            self.cart = request.user.cart
+        else:
+            self.cart = request.session.get('cart', {})
+            if 'cart' not in request.session:
+                request.session['cart'] = self.cart
 
     def __iter__(self):
         """
@@ -49,14 +51,9 @@ class Cart(object):
                                       'price': str(product.price)}
         self.cart[product_id]['quantity'] += quantity
         if self.cart[product_id]['quantity'] < 1:
-            print('SUCCES DEL', self.cart[product_id])
             del self.cart[product_id]
                 
-        self.save()
-
-    def save(self):
-        # Save the goods
-        self.session.modified = True
+        self.save_to_user(self.user)
 
     def remove(self, product):
         """
@@ -65,7 +62,7 @@ class Cart(object):
         product_id = str(product.id)
         if product_id in self.cart:
             del self.cart[product_id]
-            self.save()
+            self.save_to_user(self.user)
 
     def get_total_price(self):
         # get the total price
@@ -83,6 +80,16 @@ class Cart(object):
     
 
     def clear(self):
-        # Clear cart in a Session
-        del self.session[settings.CART_SESSION_ID]
-        self.save()
+        if self.cart_key != settings.CART_SESSION_ID:
+            del self.session[self.cart_key]
+            self.save_to_user(self.user)
+
+    def save_to_user(self, user):
+        if user == "_AnonymousUser":
+            self.session.modified = True
+        else:
+            user.cart = self.cart
+            user.save()
+
+        
+    

@@ -37,8 +37,8 @@ services:
     env_file:
       - .env
     command: >
-      bash -c "./manage.py collectstatic --noinput &&
-      ./manage.py migrate && 
+      bash -c "./manage.py collectstatic --noinput 
+      && 
       gunicorn -b 0.0.0.0:8000 --reload somestore.wsgi:application"
   nginx:
     build:
