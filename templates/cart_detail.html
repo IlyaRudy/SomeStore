@@ -3,51 +3,48 @@
 
 {% load static %}
 {% get_static_prefix as STATIC_PREFIX %}
+{% load product_quantity %}
 
 {% block content %}
-<h1>Корзина покупок</h1>
-<table class="cart">
-  <thead>
-    <tr>
-      <th>Картинка</th>
-      <th>Товар</th>
-      <th>Обновить кол-во</th>
-      <th>Удалить</th>
-      <th>Кол-во</th>
-      <th>Цена за шт</th>
-      <th>Общая стоимость</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for item in cart %}
-      {% with product=item.product %}
-        <tr>
-          <td>
-            <a href="{{ product.get_absolute_url }}">
-              <img src="{{ product.product_main_img.url }}">
+<div class="container" id="cart-main">
+  <div class="row">
+
+    <div class="col-8">
+      {% for item in cart %}
+        {% with product=item.product %}
+          {% url 'cart:cart_add' product.id as url_cart_add %}
+          <div class="product-card-at-cart">
+            <a class="text-decoration-none" href="{{ product.get_absolute_url }}">
+              <img src="{{ product.product_main_img.url }}" width="120px">
             </a>
-          </td>
-          <td>{{ product.title }}</td>
-          <td>
-          </td>
-          <td><a href="{% url 'cart:cart_remove' product.id %}">Удалить</a></td>
-          <td>
-            {{ item.quantity }}
-          </td>
-          <td class="num">${{ item.price }}</td>
-          <td class="num">${{ item.total_price }}</td>
-        </tr>
-      {% endwith %}
-    {% endfor %}
-    <tr class="total">
-      <td>Всего</td>
-      <td colspan="4"></td>
-      <td class="num">${{ cart.get_total_price }}</td>
-    </tr>
-  </tbody>
-</table>
-<p class="text-right">
-  <a href="{% url 'main:index' %}" class="button light">В магазин</a>
-  <a href="#" class="button">Оформить заказ</a>
-</p>
+            Название: {{ product.card_title }}
+            <div class="cart_product_quantity">
+              <button type="button" class="cart_quantity__minus" data-url="{{ url_cart_add }}">
+                <i class="fa-solid fa-minus"></i>
+              </button> 
+              <div class="product_quantity">
+                {% product_quantity cart product.id %}
+              </div>
+              <button type="button" class="cart_quantity__plus" data-url="{{ url_cart_add }}">
+                <i class="fa-solid fa-plus"></i>
+              </button>
+            </div>
+            <a href="{% url 'cart:cart_remove' product.id %}" class="delete_product_button"><i class="fa-solid fa-trash"></i></a>
+            <div class="item_price">{{ item.price }} zł</div>
+            
+            <div class="total_price_item">{{ item.total_price }} zł</div> 
+            <hr>
+          </div>
+        {% endwith %}
+      {% endfor %}
+    </div>
+
+    <div class="col-4">
+      <div class="total_price_cart">{% if cart.get_total_price == 0 %}0.00{% else %}{{ cart.get_total_price }}{% endif %} zł</div>
+    <a href="{% url 'main:index' %}" class="button light"> магазин</a>
+    <a href="#" class="button">Оформить заказ</a>
+    </div>
+  </div>
+</div>
+
 {% endblock content %}

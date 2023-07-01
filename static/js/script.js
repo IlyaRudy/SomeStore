@@ -149,7 +149,7 @@ $(document).ajaxStop(function() {
   ajaxPagination(); 
 });
 
-//Ajax add to cart
+//Ajax add to cart on OTHER PAGES
 const ajaxAddToCart = () => {
   $(document).off("click", ".card-add").on("click", ".card-add", function(e) {
     e.preventDefault();
@@ -205,7 +205,7 @@ const ajaxAddToCart = () => {
 
 
 
-//Ajax add quntity to cart
+//Ajax add quntity to cart on OTHER PAGES
 const ajaxQuantityMinusAddToCart = () => {
   $(document).off("click", ".quantity__minus").on("click", ".quantity__minus", function(e) {
     e.preventDefault();
@@ -324,4 +324,207 @@ $(document).ready(() => {
   ajaxAddToCart();
   ajaxQuantityPlusAddToCart();
   ajaxQuantityMinusAddToCart();
+});
+
+// Ajax delete product on CART PAGE
+
+const deleteFromCart = () => {
+  $(document).off("click", ".delete_product_button").on("click", ".delete_product_button", function(e) {
+    e.preventDefault();
+    let currentElement = $(this);
+    let url = currentElement.attr('href');
+    let totalPriceCartBlock = $('.total_price_cart')
+    let totalPriceCart = totalPriceCartBlock.text().split(" ")[0]
+
+    let totalPriceItemBlock = currentElement.parent(".product-card-at-cart").find(".total_price_item")
+    let totalPriceItem = totalPriceItemBlock.text()
+    console.log(totalPriceItem)
+    // update total cart price
+    let oldPriceTotalCart = parseFloat(totalPriceCart);
+    let newPriceTotalCart = parseFloat(totalPriceCart) - parseFloat(totalPriceItem);
+    console.log(oldPriceTotalCart, newPriceTotalCart)
+    updatePrice(totalPriceCartBlock, parseFloat(oldPriceTotalCart), parseFloat(newPriceTotalCart)); 
+    $.ajax({
+      headers: {
+        "X-CSRFToken": csrfToken
+      },
+      url: url,
+      method: "DELETE",
+      type: "DELETE",
+      error: err => {
+        console.log(err);
+      },
+      success: (data) => {
+        currentElement.closest('.product-card-at-cart').empty()
+        console.log(data.message)
+      }
+    });
+  });
+}
+
+const updateMinusButtonCart = () => {
+  let cartQuantityMinus = $(".cart_quantity__minus");
+  cartQuantityMinus.each(function() {
+    let currentElement = $(this);
+    let cartProductQuantityBlock = currentElement.parent(".cart_product_quantity");
+    let productQuantity = cartProductQuantityBlock.find(".product_quantity");
+    if (productQuantity.text().trim() == "1") {
+      currentElement.prop("disabled", true);
+    }
+    else {
+      currentElement.removeAttr("disabled");
+    }
+  });
+};
+
+const updatePrice = (element, oldPrice, newPrice) => {
+  let duration = 100; // Продолжительность анимации в миллисекундах
+  let interval = 10; // Интервал обновления цены в миллисекундах
+  let steps = duration / interval; // Количество шагов анимации
+
+  let direction = (newPrice - oldPrice) >= 0 ? 1 : -1; // Направление изменения цены
+
+  let step = Math.abs(newPrice - oldPrice) / steps * direction; // Величина изменения цены на каждом шаге
+
+  let currentPrice = oldPrice; // Текущая цена
+
+  let priceElement = element;
+
+  // Запуск анимации
+  let timer = setInterval(function() {
+    currentPrice += step; // Обновление текущей цены
+
+    // Округление до двух знаков после запятой
+    let roundedPrice = currentPrice.toFixed(2);
+
+    // Отображение текущей цены
+    priceElement.text(roundedPrice + ' zł');
+
+    // Остановка анимации, когда достигнута новая цена
+    if ((direction === 1 && currentPrice >= newPrice) || (direction === -1 && currentPrice <= newPrice)) {
+      clearInterval(timer);
+      priceElement.text(newPrice.toFixed(2) + ' zł');
+    }
+  }, interval);
+}
+
+// Ajax minus quntity or delete product on CART PAGE
+const quantityMinusCart = () => {
+  $(document).off("click", ".cart_quantity__minus").on("click", ".cart_quantity__minus", function(e) {
+    e.preventDefault();
+    let currentElement = $(this);
+    let url = currentElement.data("url");
+    let cartProductQuantityBlock = currentElement.parent(".cart_product_quantity");
+    let productCardAtCart = cartProductQuantityBlock.parent(".product-card-at-cart");
+    let totalPriceCartBlock = $('.total_price_cart')
+    let totalPriceCart = totalPriceCartBlock.text().split(" ")[0]
+
+    let totalPriceItemBlock = productCardAtCart.find(".total_price_item")
+    let totalPriceItem = totalPriceItemBlock.text().split(" ")[0]
+
+    let priceItemBlock = productCardAtCart.find(".item_price")
+    let itemPrice = priceItemBlock.text().split(" ")[0]
+    let productQuantity = cartProductQuantityBlock.find(".product_quantity");
+
+    // update total product price
+    let oldPriceTotalItem = parseFloat(totalPriceItem);
+    let newPriceTotalItem = parseFloat(totalPriceItem) - parseFloat(itemPrice);
+    updatePrice(totalPriceItemBlock, parseFloat(oldPriceTotalItem), parseFloat(newPriceTotalItem)); 
+
+    // update total cart price
+    let oldPriceTotalCart = parseFloat(totalPriceCart);
+    let newPriceTotalCart = parseFloat(totalPriceCart) - parseFloat(itemPrice);
+    updatePrice(totalPriceCartBlock, parseFloat(oldPriceTotalCart), parseFloat(newPriceTotalCart)); 
+    let quantity__minus = -1;
+    $.ajax({
+      headers: {
+        "X-CSRFToken": csrfToken
+      },
+      url: url,
+      method: 'POST',
+      data: {
+        'quantity': quantity__minus,
+      },
+      type: 'POST',
+      error: err => {
+        console.log(err);
+      },
+      success: (data) => {
+        productQuantity.text(`${data.product_quantity}`);
+        updateMinusButtonCart();
+
+        
+
+        if (data.cart_length < 1) {
+          $('.navbar-pc__notify').remove();
+        }
+        else {
+          $('.navbar-pc__notify').text(data.cart_length);
+        }
+      }
+    });
+    
+  });
+}
+
+// Ajax plus quntity or delete product on CART PAGE
+const quantityPlusCart = () => {
+  $(document).off("click", ".cart_quantity__plus").on("click", ".cart_quantity__plus", function(e) {
+    e.preventDefault();
+    let currentElement = $(this);
+    let url = currentElement.data("url");
+    let totalPriceCartBlock = $('.total_price_cart')
+    let totalPriceCart = totalPriceCartBlock.text().split(" ")[0]
+
+    let cartProductQuantityBlock = currentElement.parent(".cart_product_quantity");
+    let productCardAtCart = cartProductQuantityBlock.parent(".product-card-at-cart");
+
+    let totalPriceItemBlock = productCardAtCart.find(".total_price_item")
+    let totalPriceItem = totalPriceItemBlock.text().split(" ")[0]
+
+    let priceItemBlock = productCardAtCart.find(".item_price")
+    let itemPrice = priceItemBlock.text().split(" ")[0]
+
+    let productQuantity = cartProductQuantityBlock.find(".product_quantity");
+
+    // update total product price
+    let oldPriceTotalItem = parseFloat(totalPriceItem);
+    let newPriceTotalItem = parseFloat(totalPriceItem) + parseFloat(itemPrice);
+    updatePrice(totalPriceItemBlock, parseFloat(oldPriceTotalItem), parseFloat(newPriceTotalItem)); 
+
+    // update total cart price
+    let oldPriceTotalCart = parseFloat(totalPriceCart);
+    let newPriceTotalCart = parseFloat(totalPriceCart) + parseFloat(itemPrice);
+    updatePrice(totalPriceCartBlock, parseFloat(oldPriceTotalCart), parseFloat(newPriceTotalCart)); 
+    let quantity__plus = 1;
+    $.ajax({
+      headers: {
+        "X-CSRFToken": csrfToken
+      },
+      url: url,
+      method: 'POST',
+      data: {
+        'quantity': quantity__plus,
+      },
+      type: 'POST',
+      error: err => {
+        console.log(err);
+      },
+      success: (data) => {
+        productQuantity.text(`${data.product_quantity}`);
+
+        
+
+        updateMinusButtonCart();
+        $('.navbar-pc__notify').text(data.cart_length);
+      }
+    });
+  });
+}
+
+$(document).ready(() => {
+  deleteFromCart();
+  updateMinusButtonCart();
+  quantityMinusCart();
+  quantityPlusCart();
 });
