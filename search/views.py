@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.views.generic import ListView
 from .documents import ProductDocument
 from elasticsearch_dsl.query import MultiMatch

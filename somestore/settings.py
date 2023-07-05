@@ -44,11 +44,12 @@ INSTALLED_APPS = [
     # External apps 
     'django_elasticsearch_dsl',
     # project apps 
-    'main',
-    'category',
-    'accounts',
-    'search',
-    'cart',
+    'main.apps.MainConfig',
+    'category.apps.CategoryConfig',
+    'accounts.apps.AccountsConfig',
+    'search.apps.SearchConfig',
+    'cart.apps.CartConfig',
+    'favorite.apps.FavoriteConfig',
 ]
 
 MIDDLEWARE = [
@@ -77,6 +78,7 @@ TEMPLATES = [
                 'main.context_processors.product',
                 'category.context_processors.category_subcategory',
                 'cart.context_processors.cart',
+                'favorite.context_processors.favorite',
             ],
         },
     },

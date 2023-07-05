@@ -99,19 +99,21 @@ $(document).ready(function() {
 });
 
 // icon-heart fill if hover
-const icon_hearts = document.querySelectorAll('#icon-heart');
+let handleMouseEvents = () => {
+  let icon_hearts = document.querySelectorAll('#icon-heart');
+  icon_hearts.forEach(icon_heart => {
+    icon_heart.addEventListener('mouseenter', () => {
+      icon_heart.classList.remove('bi-heart');
+      icon_heart.classList.add('bi-heart-fill');
+    });
 
-icon_hearts.forEach(function(icon_heart) {
-  icon_heart.addEventListener('mouseenter', function() {
-    this.classList.remove('bi-heart');
-    this.classList.add('bi-heart-fill');
+    icon_heart.addEventListener('mouseleave', () => {
+      icon_heart.classList.remove('bi-heart-fill');
+      icon_heart.classList.add('bi-heart');
+    });
   });
-
-  icon_heart.addEventListener('mouseleave', function() {
-    this.classList.remove('bi-heart-fill');
-    this.classList.add('bi-heart');
-  });
-});
+};
+handleMouseEvents();
 
 //Ajax pagination
 function ajaxPagination() {
@@ -143,10 +145,12 @@ function ajaxPagination() {
 
 $(document).ready(function() {
   ajaxPagination();
+  handleMouseEvents();
 });
 
 $(document).ajaxStop(function() {
-  ajaxPagination(); 
+  ajaxPagination();
+  handleMouseEvents(); 
 });
 
 //Ajax add to cart on OTHER PAGES
@@ -545,4 +549,130 @@ $(document).ready(() => {
   updateMinusButtonCart();
   quantityMinusCart();
   quantityPlusCart();
+});
+
+//Ajax add to favorite on OTHER PAGES
+const addToFavorite = () => {
+  $(document).off("click", ".a-icon-heart").on("click", ".a-icon-heart", function(e) {
+    e.preventDefault();
+    let currentElement = $(this);
+    let url = currentElement.attr('href');
+    let alreadyAdd = currentElement.data('already-add');
+    let iconHeart = '';
+    let productAddToFavorite = ''
+    let productAddToFavoriteQuickView = '';
+    let iconHeartQuickView = '';
+    let place = currentElement.data('place');
+
+    if (place === 'card') {
+      productAddToFavorite = currentElement.find('.product-add-to-favorite');
+      iconHeart = currentElement.find('#icon-heart');
+      let modal = currentElement.closest('.product-card').next('.modal');
+      let rsHeart = modal.find('.rs-heart');
+      productAddToFavoriteQuickView = rsHeart.find('.product-add-to-favorite-quick-view');
+      iconHeartQuickView = rsHeart.find('#icon-heart');
+      console.log('IF')
+    }
+    else {
+      productAddToFavoriteQuickView = currentElement.find('.product-add-to-favorite-quick-view');
+      iconHeartQuickView = productAddToFavoriteQuickView.next('#icon-heart');
+      let productCard = currentElement.closest('.modal').prev('.product-card');
+      iconHeart = productCard.find('#icon-heart');
+
+      productAddToFavorite = productCard.find('.product-add-to-favorite');
+      console.log('ELSE')
+    }
+
+    if (!alreadyAdd) {
+      currentElement.data('already-add', true)
+      productAddToFavorite.removeAttr("hidden");
+      iconHeart.prop("hidden", true);
+
+      productAddToFavoriteQuickView.removeAttr("hidden");
+      iconHeartQuickView.prop("hidden", true);
+      $.ajax({
+        headers: {
+          "X-CSRFToken": csrfToken
+        },
+        url: url,
+        method: 'POST',
+        type: 'POST',
+        error: err => {
+          console.log(err);
+        },
+        success: (data) => {
+          // Change cart notify on icon
+          if (!$('.navbar-heart__notify').length) {
+            $(`<span class="navbar-heart__notify">${data.favorite_length}</span>`).appendTo('#favoriteNavIcon');
+          }
+          else {
+            $('.navbar-heart__notify').text(data.favorite_length);
+          }
+        }
+      
+      });
+    }
+    else {
+      currentElement.data('already-add', false);
+      productAddToFavorite.prop("hidden", true);
+      iconHeart.removeAttr("hidden");
+
+      productAddToFavoriteQuickView.prop("hidden", true);
+      iconHeartQuickView.removeAttr("hidden");
+      let urlDelete = currentElement.data('url-delete');
+      $.ajax({
+        headers: {
+          "X-CSRFToken": csrfToken
+        },
+        url: urlDelete,
+        method: "DELETE",
+        type: "DELETE",
+        error: err => {
+          console.log(err);
+        },
+        success: (data) => {
+          if (data.favorite_length < 1) {
+            $('.navbar-heart__notify').remove();
+          }
+          else {
+            $('.navbar-heart__notify').text(data.favorite_length);
+          }
+        }
+      });
+    }
+  });
+}
+
+//Ajax delete from favorite
+const deleteFromFavorite = () => {
+  $(document).off("click", ".fav-delete_product_button").on("click", ".fav-delete_product_button", function(e) {
+    e.preventDefault();
+    let currentElement = $(this);
+    let url = currentElement.attr('href');
+    $.ajax({
+      headers: {
+        "X-CSRFToken": csrfToken
+      },
+      url: url,
+      method: "DELETE",
+      type: "DELETE",
+      error: err => {
+        console.log(err);
+      },
+      success: (data) => {
+        currentElement.closest('.row').remove();
+        if (data.favorite_length < 1) {
+          $('.navbar-heart__notify').remove();
+        }
+        else {
+          $('.navbar-heart__notify').text(data.favorite_length);
+        }
+      }
+    });
+  });
+}
+
+$(document).ready(() => {
+  addToFavorite();
+  deleteFromFavorite();
 });

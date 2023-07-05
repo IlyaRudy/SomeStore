@@ -15,7 +15,7 @@ class MainListView(ListView):
         context = super().get_context_data(**kwargs)
 
         #Getting products in the current subcategory for pagination
-        context['product_list'] = Product.objects.all()
+        context['product_list'] = Product.objects.all().order_by('id')
         paginator = Paginator(context['product_list'], 2)
         page = self.request.GET.get('page')
         try:

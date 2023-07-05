@@ -98,25 +98,29 @@
               <!-- /account -->
 
               <!-- favorite -->
+              {% with total_items=favorite|length %}
               <div class="col-4">
                 <div class="dropdown">
-                  <a href="#" class="d-flex text-decoration-none">
+                  <a href="{% url 'favorite:favorite_detail' %}" class="d-flex text-decoration-none" id="favoriteNavIcon">
                     <i class="bi bi-heart-fill fs-4"></i>
-                    <span class="navbar-heart__notify" hidden>
-                      {{ total_items }}
-                    </span>
+                    {% if total_items %}
+                      <span class="navbar-heart__notify">
+                        {{ total_items }}
+                      </span>
+                    {% endif %}
                   </a>
                 </div>
               </div>
+              {% endwith %}
               <!-- /favorite -->
 
               <!-- cart -->
-              {% with total_items=cart|length%}
+              {% with total_items=cart|length %}
               <div class="col-4">
                 <div class="dropdown">
                   <a href="{% url 'cart:cart_detail' %}" class="d-flex text-decoration-none" id="dropdownCart">
                     <i class="bi bi-cart-fill fs-4"></i>
-                    {% if cart|length %}
+                    {% if total_items %}
                     <span class="navbar-pc__notify">
                       {{ total_items }}
                     </span>

@@ -5,7 +5,12 @@
     <a href="{{ product.get_absolute_url }}" class="text-decoration-none text-dark">
       <div class="product-thumb">
         <div class="product-img"><img src="{% if product.product_main_img.url %}{{ product.product_main_img.url }} {% else %} {{ product.product_main_img }}{% endif %}" alt="{{ product.title }}"></div>
-        <a href="#" class="text-decoration-none text-dark"><i class=" bi bi-heart" id="icon-heart"></i></a>
+        <a href="{% url 'favorite:favorite_add' product.id %}"  class="a-icon-heart text-decoration-none text-dark" 
+        data-product-id="{{ product.id }}" {% if product.id|stringformat:"s" in favorite.get_products_ids %}data-already-add=true{% endif %} 
+        data-url-delete={% url 'favorite:favorite_remove' product.id %} data-place='card'>
+          <i class="bi bi-heart-fill product-add-to-favorite"{% if not product.id|stringformat:"s" in favorite.get_products_ids %}hidden{% endif %}></i>
+          <i class="bi bi-heart" id="icon-heart"{% if product.id|stringformat:"s" in favorite.get_products_ids %}hidden{% endif %}></i>
+        </a>
         <div class="modal-quick-view">
           <button type="button" data-bs-toggle="modal" data-bs-target="#modal-quick-view{{ forloop.counter }}">
             szybki podgląd
@@ -114,7 +119,14 @@
                     </div>
                   </div>
                   <div class="col-2 position-relative p-0 justify-content-start">
-                    <div class="rs-heart align-content-center"><a href="#" class="text-decoration-none text-dark"><i class="bi bi-heart" id="icon-heart"></i></a></div>
+                    <div class="rs-heart align-content-center">
+                      <a href="{% url 'favorite:favorite_add' product.id %}"  class="a-icon-heart text-decoration-none text-dark" 
+                      data-product-id="{{ product.id }}" {% if product.id|stringformat:"s" in favorite.get_products_ids %} 
+                      data-already-add=true {% endif %} data-url-delete={% url 'favorite:favorite_remove' product.id %} data-place='quick-view'>
+                        <i class="bi bi-heart-fill product-add-to-favorite-quick-view"{% if not product.id|stringformat:"s" in favorite.get_products_ids %}hidden{% endif %}></i>
+                        <i class="bi bi-heart" id="icon-heart"{% if product.id|stringformat:"s" in favorite.get_products_ids %}hidden{% endif %}></i>
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>

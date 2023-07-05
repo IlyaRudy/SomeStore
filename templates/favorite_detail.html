@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block content %}
+<div class="container" id="favorite-main">
+    <h4 class="mt-5 mt-md-2">Ulubione oferty</h4>
+  
+      {% for item in favorite %}
+        {% with product=item.product %}
+          <div class="row justify-content-center">
+            <div class="col-12">
+          
+              <div class="row mb-4 mx-0">
+                  <div class="col-2 col-lg-2">
+                    <a class="text-decoration-none" href="{{ product.get_absolute_url }}">
+                      <div class="product_main_img"><img src="{{ product.product_main_img.url }}"></div>
+                    </a>
+                  </div>
+                  
+                  <div class="col-4 col-lg-4 my-auto">
+                    <div class="product_title">{{ product.card_title }}<div class="item_price">{{ item.price }} zł</div></div> 
+                  </div>
+                  
+                  <div class="col-6 col-lg-6 my-auto">
+                    <i href="{% url 'favorite:favorite_remove' product.id %}" class="fa-solid fa-trash fav-delete_product_button" style='color: #000; cursor: pointer;'></i>
+                    <button class="card-add" data-url="{% url 'cart:cart_add' product.id %}" data-product-id="{{ product.id }}">Dodaj do koszyka</button>
+                    <button class="go-to-card" data-url="{% url 'favorite:favorite_detail' %}">Przejdź do koszyka</button>
+                  </div>
+              </div>  
+
+            </div>
+          </div>
+        {% endwith %}
+      {% endfor %}
+    
+    <div class="">
+      <h3 class="">Jeszcze niczego nie polubiłeś/łaś</h3>
+      <div class="">
+        <p>kliknij 
+          <i class="bi bi-heart-fill" style='color: #000'>polub</i>, żeby zapisać ciekawe oferty.
+        </p>
+      </div>
+    </div>
+</div>
+
+{% endblock content %}
