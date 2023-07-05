@@ -7,43 +7,62 @@
 
 {% block content %}
 <div class="container" id="cart-main">
-  <div class="row">
+    <h4 class="mt-5 mt-md-2">Koszyk</h4>
+    
+    <div class="row justify-content-center" id="cart-main-row" {% if cart|length < 1 %}hidden{% endif %}>
 
-    <div class="col-8">
-      {% for item in cart %}
-        {% with product=item.product %}
-          {% url 'cart:cart_add' product.id as url_cart_add %}
-          <div class="product-card-at-cart">
-            <a class="text-decoration-none" href="{{ product.get_absolute_url }}">
-              <img src="{{ product.product_main_img.url }}" width="120px">
-            </a>
-            Название: {{ product.card_title }}
-            <div class="cart_product_quantity">
-              <button type="button" class="cart_quantity__minus" data-url="{{ url_cart_add }}">
-                <i class="fa-solid fa-minus"></i>
-              </button> 
-              <div class="product_quantity">
-                {% product_quantity cart product.id %}
+      <div class="col-12 col-lg-9">
+        
+          {% for item in cart %}
+            {% with product=item.product %}
+              {% url 'cart:cart_add' product.id as url_cart_add %}
+              <div class="product-card-at-cart">
+                <div class="row mb-4 mx-0">
+                    <div class="col-2 col-lg-2">
+                      <a class="text-decoration-none" href="{{ product.get_absolute_url }}">
+                        <div class="product_main_img"><img src="{{ product.product_main_img.url }}"></div>
+                      </a>
+                    </div>
+                    
+                    <div class="col-4 col-lg-4 my-auto">
+                      <div class="product_title">{{ product.card_title }}<div class="item_price" data-item-price="{{ item.price }}">{{ item.price }} zł</div></div> 
+                    </div>
+                    
+                    <div class="col-3 col-lg-3 cart_product_quantity my-auto">
+                      <button type="button" class="cart_quantity__minus" data-url="{{ url_cart_add }}">
+                        <i class="fa-solid fa-minus"></i>
+                      </button> 
+                      <div class="product_quantity">
+                        {% product_quantity cart product.id %}
+                      </div>
+                      <button type="button" class="cart_quantity__plus" data-url="{{ url_cart_add }}">
+                        <i class="fa-solid fa-plus"></i>
+                      </button>
+                      <div class="delete_product">
+                        <a href="{% url 'cart:cart_remove' product.id %}" class="delete_product_button"><i class="fa-solid fa-trash"></i></a> 
+                      </div>
+                    </div>
+                  
+                    <div class="col-3 col-lg-3 total_price_item d-flex align-items-center justify-content-center" data-item-total-price="{{ item.total_price }}">{{ item.total_price }} zł</div> 
+
+                </div>  
               </div>
-              <button type="button" class="cart_quantity__plus" data-url="{{ url_cart_add }}">
-                <i class="fa-solid fa-plus"></i>
-              </button>
-            </div>
-            <a href="{% url 'cart:cart_remove' product.id %}" class="delete_product_button"><i class="fa-solid fa-trash"></i></a>
-            <div class="item_price">{{ item.price }} zł</div>
-            
-            <div class="total_price_item">{{ item.total_price }} zł</div> 
-            <hr>
-          </div>
-        {% endwith %}
-      {% endfor %}
+            {% endwith %}
+          {% endfor %}
+        
+      </div>
+
+      <div class="col-8 col-lg-3 mb-4" id="totalBlock">
+        <div class="total my-lg-3">
+          <div class="total_price_text ">Razem:</div><div class="total_price_cart fs-lg-1" data-cart-total-price="{{ cart.get_total_price }}">{{ cart.get_total_price }} zł</div>
+        </div>
+        <button class="card-add cart-pay">Dostawa i płatność</button>
+      </div>
+
     </div>
 
-    <div class="col-4">
-      <div class="total_price_cart">{% if cart.get_total_price == 0 %}0.00{% else %}{{ cart.get_total_price }}{% endif %} zł</div>
-    <a href="{% url 'main:index' %}" class="button light"> магазин</a>
-    <a href="#" class="button">Оформить заказ</a>
-    </div>
+  <div class="empty-cart row" {% if cart|length > 0 %}hidden{% endif %}>
+    <h2 class="empty-cart-h2 col-12">Twój koszyk jest pusty</h2>
   </div>
 </div>
 

@@ -333,17 +333,23 @@ const deleteFromCart = () => {
     e.preventDefault();
     let currentElement = $(this);
     let url = currentElement.attr('href');
-    let totalPriceCartBlock = $('.total_price_cart')
-    let totalPriceCart = totalPriceCartBlock.text().split(" ")[0]
 
-    let totalPriceItemBlock = currentElement.parent(".product-card-at-cart").find(".total_price_item")
-    let totalPriceItem = totalPriceItemBlock.text()
-    console.log(totalPriceItem)
+    let totalPriceCartBlock = $('.total_price_cart');
+    let totalPriceCart = totalPriceCartBlock.data("cart-total-price");
+
+    let totalPriceItemBlock = currentElement.closest(".product-card-at-cart").find(".total_price_item");
+    let totalPriceItem = totalPriceItemBlock.data("item-total-price")
+    console.log("Total-price", totalPriceItem)
+
     // update total cart price
     let oldPriceTotalCart = parseFloat(totalPriceCart);
     let newPriceTotalCart = parseFloat(totalPriceCart) - parseFloat(totalPriceItem);
     console.log(oldPriceTotalCart, newPriceTotalCart)
-    updatePrice(totalPriceCartBlock, parseFloat(oldPriceTotalCart), parseFloat(newPriceTotalCart)); 
+    updatePrice(totalPriceCartBlock, "cart-total-price", parseFloat(oldPriceTotalCart), parseFloat(newPriceTotalCart)); 
+    if (totalPriceCartBlock.data("cart-total-price") < 0.01) {
+      $("#cart-main-row").prop("hidden", true);
+      $("#cart-main").find(".empty-cart").removeAttr("hidden");
+    };
     $.ajax({
       headers: {
         "X-CSRFToken": csrfToken
@@ -355,8 +361,13 @@ const deleteFromCart = () => {
         console.log(err);
       },
       success: (data) => {
-        currentElement.closest('.product-card-at-cart').empty()
-        console.log(data.message)
+        currentElement.closest('.product-card-at-cart').remove();
+        if (data.cart_length < 1) {
+          $('.navbar-pc__notify').remove();
+        }
+        else {
+          $('.navbar-pc__notify').text(data.cart_length);
+        }
       }
     });
   });
@@ -377,9 +388,9 @@ const updateMinusButtonCart = () => {
   });
 };
 
-const updatePrice = (element, oldPrice, newPrice) => {
-  let duration = 100; // Продолжительность анимации в миллисекундах
-  let interval = 10; // Интервал обновления цены в миллисекундах
+const updatePrice = (element, data, oldPrice, newPrice) => {
+  let duration = 800; // Продолжительность анимации в миллисекундах
+  let interval = 20; // Интервал обновления цены в миллисекундах
   let steps = duration / interval; // Количество шагов анимации
 
   let direction = (newPrice - oldPrice) >= 0 ? 1 : -1; // Направление изменения цены
@@ -406,6 +417,7 @@ const updatePrice = (element, oldPrice, newPrice) => {
       priceElement.text(newPrice.toFixed(2) + ' zł');
     }
   }, interval);
+  element.data(data, newPrice.toFixed(2)); 
 }
 
 // Ajax minus quntity or delete product on CART PAGE
@@ -415,26 +427,32 @@ const quantityMinusCart = () => {
     let currentElement = $(this);
     let url = currentElement.data("url");
     let cartProductQuantityBlock = currentElement.parent(".cart_product_quantity");
-    let productCardAtCart = cartProductQuantityBlock.parent(".product-card-at-cart");
+    let productCardAtCart = cartProductQuantityBlock.parent().parent(".product-card-at-cart");
     let totalPriceCartBlock = $('.total_price_cart')
-    let totalPriceCart = totalPriceCartBlock.text().split(" ")[0]
+    let totalPriceCart = totalPriceCartBlock.data("cart-total-price")
 
-    let totalPriceItemBlock = productCardAtCart.find(".total_price_item")
-    let totalPriceItem = totalPriceItemBlock.text().split(" ")[0]
+    let totalPriceItemBlock = productCardAtCart.find(".total_price_item");
+    let totalPriceItem = totalPriceItemBlock.data("item-total-price")
 
-    let priceItemBlock = productCardAtCart.find(".item_price")
-    let itemPrice = priceItemBlock.text().split(" ")[0]
+    let priceItemBlock = productCardAtCart.find(".item_price");
+    let itemPrice = priceItemBlock.data("item-price");
+
     let productQuantity = cartProductQuantityBlock.find(".product_quantity");
 
     // update total product price
     let oldPriceTotalItem = parseFloat(totalPriceItem);
     let newPriceTotalItem = parseFloat(totalPriceItem) - parseFloat(itemPrice);
-    updatePrice(totalPriceItemBlock, parseFloat(oldPriceTotalItem), parseFloat(newPriceTotalItem)); 
+    updatePrice(totalPriceItemBlock, "item-total-price", parseFloat(oldPriceTotalItem), parseFloat(newPriceTotalItem));
 
     // update total cart price
     let oldPriceTotalCart = parseFloat(totalPriceCart);
     let newPriceTotalCart = parseFloat(totalPriceCart) - parseFloat(itemPrice);
-    updatePrice(totalPriceCartBlock, parseFloat(oldPriceTotalCart), parseFloat(newPriceTotalCart)); 
+    updatePrice(totalPriceCartBlock, "cart-total-price", parseFloat(oldPriceTotalCart), parseFloat(newPriceTotalCart));
+
+    if (totalPriceCartBlock.data("cart-total-price") < 0.01) {
+      $("#cart-main-row").prop("hidden", true);
+      $("#cart-main").find(".empty-cart").removeAttr("hidden");
+    }
     let quantity__minus = -1;
     $.ajax({
       headers: {
@@ -474,28 +492,28 @@ const quantityPlusCart = () => {
     let currentElement = $(this);
     let url = currentElement.data("url");
     let totalPriceCartBlock = $('.total_price_cart')
-    let totalPriceCart = totalPriceCartBlock.text().split(" ")[0]
+    let totalPriceCart = totalPriceCartBlock.data("cart-total-price")
 
     let cartProductQuantityBlock = currentElement.parent(".cart_product_quantity");
-    let productCardAtCart = cartProductQuantityBlock.parent(".product-card-at-cart");
+    let productCardAtCart = cartProductQuantityBlock.parent().parent(".product-card-at-cart");
 
     let totalPriceItemBlock = productCardAtCart.find(".total_price_item")
-    let totalPriceItem = totalPriceItemBlock.text().split(" ")[0]
+    let totalPriceItem = totalPriceItemBlock.data("item-total-price")
 
     let priceItemBlock = productCardAtCart.find(".item_price")
-    let itemPrice = priceItemBlock.text().split(" ")[0]
+    let itemPrice = priceItemBlock.data("item-price");
 
     let productQuantity = cartProductQuantityBlock.find(".product_quantity");
 
     // update total product price
     let oldPriceTotalItem = parseFloat(totalPriceItem);
     let newPriceTotalItem = parseFloat(totalPriceItem) + parseFloat(itemPrice);
-    updatePrice(totalPriceItemBlock, parseFloat(oldPriceTotalItem), parseFloat(newPriceTotalItem)); 
+    updatePrice(totalPriceItemBlock, "item-total-price", parseFloat(oldPriceTotalItem), parseFloat(newPriceTotalItem)); 
 
     // update total cart price
     let oldPriceTotalCart = parseFloat(totalPriceCart);
     let newPriceTotalCart = parseFloat(totalPriceCart) + parseFloat(itemPrice);
-    updatePrice(totalPriceCartBlock, parseFloat(oldPriceTotalCart), parseFloat(newPriceTotalCart)); 
+    updatePrice(totalPriceCartBlock, "cart-total-price", parseFloat(oldPriceTotalCart), parseFloat(newPriceTotalCart)); 
     let quantity__plus = 1;
     $.ajax({
       headers: {

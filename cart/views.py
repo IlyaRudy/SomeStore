@@ -10,7 +10,7 @@ def cart_add(request, product_id):
     data = {
         'product_quantity': '',
         'cart_length': '',
-            }
+    }
     product = get_object_or_404(Product, id=product_id)
     quantity = request.POST.get('quantity')
     if quantity:
@@ -27,12 +27,14 @@ def cart_add(request, product_id):
 @require_http_methods(["DELETE"])
 def cart_remove(request, product_id):
     cart = Cart(request)
-    product = get_object_or_404(Product, id=product_id)
-    cart.remove(product)
     data = {
         'message': 'Товар успешно удален.',
-        
-             }
+        'cart_length': '',
+    }
+    product = get_object_or_404(Product, id=product_id)
+    cart.remove(product)
+    cart_length = cart.__len__()
+    data['cart_length'] = cart_length 
     return JsonResponse(data)
 
 

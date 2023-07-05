@@ -526,9 +526,21 @@ body button {
 }
 /* /product-card-page */
 /* cart-page */
+.product-card-at-cart {
+  box-shadow: 0px 3px 6px 4px rgba(0, 0, 0, 0.2);
+  height: 10em;
+  margin-bottom: 1.5em;
+}
+#totalBlock {
+  box-shadow: 0px 3px 6px 4px rgba(0, 0, 0, 0.2);
+  height: 10em;
+  align-items: center;
+  display: grid;
+  justify-items: stretch;
+  align-content: space-evenly;
+}
 .cart_product_quantity .product_quantity {
   display: inline-block;
-  width: 1.8em;
 }
 
 .cart_product_quantity i,
@@ -537,13 +549,13 @@ body button {
   transition: 0.2s;
 }
 .cart_product_quantity {
-  display: block;
-  width: 100%;
   color: var(--color_pink);
   padding: 9px;
   text-align: center;
   transition: 0.2s;
-  margin-top: auto; 
+  margin-top: auto;
+  align-items: center;
+  justify-content: center; 
 }
 .cart_product_quantity button:hover {
   background-color: var(--color_pink);
@@ -572,18 +584,73 @@ body button {
 .cart_product_quantity button[disabled]:hover i {
   color: #6c757d;
 }
-.delete_product_button i {
-  border-radius: 0.4em;
-  color: var(--color_pink);
-  border-color: var(--color_pink);
+.delete_product i {
+  color: #6c757d;
   transition: 0.2s;
-  opacity: 0.4;
+  opacity: 0.3;
+  margin-top: 4em;
 }
 
-.delete_product_button:hover i {
-  opacity: 1;
+.delete_product i:hover {
+  color: var(--color_pink);
+  opacity: 0.6;
 }
 
+.product_main_img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 10em;
+}
+.product_main_img img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.product-card-at-cart .item_price {
+  color: #6c757d;
+  font-size: 400;
+  font-size: 14px;
+}
+.total_price_item {
+  font-size: 1em;
+  
+}
+.total_price_item, .total_price_cart {
+  font-weight: 700;
+  color: #000;
+}
+
+.total_price_cart {
+  font-weight: 700;
+  font-size: 1.3em;
+}
+.total_price_text {
+  font-weight: 700;
+  font-size: 1em;
+}
+.cart-pay {
+  text-transform: uppercase;
+}
+
+.total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.empty-cart {
+  margin: 1em 0 1.5em 0;
+  width: 100%;
+  height: 10em;
+  box-shadow: 0px 3px 6px 4px rgba(0, 0, 0, 0.2);
+}
+.empty-cart-h2 {
+  margin-inline: auto;
+  margin-block: auto;
+  text-align: center;
+  text-transform: uppercase;
+}
 /* /cart-page */
 
 /* footer */
