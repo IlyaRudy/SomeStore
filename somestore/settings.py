@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'category',
     'accounts',
     'search',
+    'cart',
 ]
 
 MIDDLEWARE = [
@@ -69,11 +70,13 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                'main.context_processors.Category_Subcategory_Product',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'main.context_processors.product',
+                'category.context_processors.category_subcategory',
+                'cart.context_processors.cart',
             ],
         },
     },
@@ -140,8 +143,7 @@ MEDIA_ROOT = 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = reverse_lazy('main:index')
-LOGOUT_REDIRECT_URL = reverse_lazy('main:index')
+LOGIN_URL = reverse_lazy('accounts:signup-login')
 
 AUTH_USER_MODEL = 'main.User'
 

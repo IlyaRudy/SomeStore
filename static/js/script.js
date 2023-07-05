@@ -120,6 +120,9 @@ function ajaxPagination() {
       e.preventDefault()
       let page_url = $(el).attr('href')
       $.ajax({
+        headers: {
+          "X-CSRFToken": '{{csrf_token}}'
+        },
         url: page_url,
         type: 'GET',
         error: err => {
@@ -133,14 +136,413 @@ function ajaxPagination() {
           $('#pagination').empty()
           $('#pagination').append( $(data).find('#pagination').html() )
         }
-      })
-    })
-  })
+      });
+    });
+  });
 };
 
 $(document).ready(function() {
   ajaxPagination();
 });
+
 $(document).ajaxStop(function() {
-  ajaxPagination()
+  ajaxPagination(); 
+});
+
+//Ajax add to cart on OTHER PAGES
+const ajaxAddToCart = () => {
+  $(document).off("click", ".card-add").on("click", ".card-add", function(e) {
+    e.preventDefault();
+    let currentElement = $(this);
+    let url = currentElement.data("url");
+    $.ajax({
+      headers: {
+        "X-CSRFToken": csrfToken
+      },
+      url: url,
+      method: 'POST',
+      type: 'POST',
+      error: err => {
+        console.log(err);
+      },
+      success: (data) => {
+        // Change cart notify on icon
+        if (!$('.navbar-pc__notify').length) {
+          $(`<span class="navbar-pc__notify">${data.cart_length}</span>`).appendTo('#dropdownCart');
+        }
+        else {
+          $('.navbar-pc__notify').text(data.cart_length);
+        }
+        let quantityBlock = currentElement.next(".quantity");
+        
+
+        currentElement.prop("hidden", true);
+        quantityBlock.removeAttr("hidden");
+        quantityBlock.find(".product_quantity").text('1')
+
+        if (currentElement.closest('.product-card').length > 0) {
+          // Change the quick view
+          let quickViewProductBottomDetails = currentElement.closest('.product-card').next().find('.product-bottom-details');
+          let quickViewQuantityBlock = quickViewProductBottomDetails.find(".quantity");
+
+          quickViewProductBottomDetails.find(".card-add").prop("hidden", true);
+          quickViewQuantityBlock.removeAttr("hidden");
+          quickViewQuantityBlock.find(".product_quantity").text('1'); 
+        } else {
+          // Change the product card
+          let productBottomDetails = currentElement.closest('.modal').prev('.product-card').find('.product-bottom-details');
+          let quantityBlock = productBottomDetails.find(".quantity");
+
+          productBottomDetails.find(".card-add").prop("hidden", true);
+          quantityBlock.removeAttr("hidden");
+          quantityBlock.find(".product_quantity").text('1'); 
+        }
+        
+      }
+    });
+  });
+}
+
+
+
+//Ajax add quntity to cart on OTHER PAGES
+const ajaxQuantityMinusAddToCart = () => {
+  $(document).off("click", ".quantity__minus").on("click", ".quantity__minus", function(e) {
+    e.preventDefault();
+    let currentElement = $(this);
+    let url = currentElement.data("url");
+    let quantityBlock = currentElement.parent(".quantity");
+    let bottomDetailsBlock = quantityBlock.closest(".product-bottom-details");
+    let quantity__minus = -1;
+    $.ajax({
+      headers: {
+        "X-CSRFToken": csrfToken
+      },
+      url: url,
+      method: 'POST',
+      data: {
+        'quantity': quantity__minus,
+      },
+      type: 'POST',
+      error: err => {
+        console.log(err);
+      },
+      success: (data) => {
+        if (data.product_quantity < 1) {
+          quantityBlock.prop("hidden", true);
+          bottomDetailsBlock.find('.card-add').removeAttr("hidden");
+
+          if (currentElement.closest('.product-card').length > 0) {
+            // Change the quick view
+            let quickViewProductBottomDetails = currentElement.closest('.product-card').next().find('.product-bottom-details');
+  
+            quickViewProductBottomDetails.find(".quantity").prop("hidden", true);
+            quickViewProductBottomDetails.find(".card-add").removeAttr("hidden");
+          } else {
+            // Change the product card
+            let productBottomDetails = currentElement.closest('.modal').prev().find('.product-bottom-details');
+
+            productBottomDetails.find(".quantity").prop("hidden", true);
+            productBottomDetails.find(".card-add").removeAttr("hidden");
+          }
+          
+          
+        }
+        else {
+          let productQuantity = quantityBlock.find(".product_quantity");
+
+          productQuantity.text(`${data.product_quantity}`);
+
+          if (currentElement.closest('.product-card').length > 0) {
+            // Change the quick view
+            let quickViewProductBottomDetails = currentElement.closest('.product-card').next().find('.product-bottom-details');
+  
+            quickViewProductBottomDetails.find('.product_quantity').text(`${data.product_quantity}`);
+          } else {
+            // Change the product card
+            let productBottomDetails = currentElement.closest('.modal').prev().find('.product-bottom-details');
+
+            productBottomDetails.find('.product_quantity').text(`${data.product_quantity}`);
+          }
+          
+          
+        }
+        if (data.cart_length < 1) {
+          $('.navbar-pc__notify').remove();
+        }
+        else {
+          $('.navbar-pc__notify').text(data.cart_length);
+        }
+      }
+    });
+  });
+}
+
+const ajaxQuantityPlusAddToCart = () => {
+  $(document).off("click", ".quantity__plus").on("click", ".quantity__plus", function(e) {
+    e.preventDefault();
+    let currentElement = $(this);
+    let url = currentElement.data("url");
+    let productQuantity = currentElement.parent(".quantity").find(".product_quantity");
+    let quickViewProductBottomDetails = currentElement.closest('.product-card').next().find('.product-bottom-details');
+    let quantity__plus = 1;
+    $.ajax({
+      headers: {
+        "X-CSRFToken": csrfToken
+      },
+      url: url,
+      method: 'POST',
+      data: {
+        'quantity': quantity__plus,
+      },
+      type: 'POST',
+      error: err => {
+        console.log(err);
+      },
+      success: (data) => {
+        productQuantity.text(`${data.product_quantity}`);
+
+        if (currentElement.closest('.product-card').length > 0) {
+          // Change the quick view
+          let quickViewProductBottomDetails = currentElement.closest('.product-card').next().find('.product-bottom-details');
+
+          quickViewProductBottomDetails.find('.product_quantity').text(`${data.product_quantity}`);
+        } else {
+          // Change the product card
+          let productBottomDetails = currentElement.closest('.modal').prev().find('.product-bottom-details');
+
+          productBottomDetails.find('.product_quantity').text(`${data.product_quantity}`);
+        }
+        
+        $('.navbar-pc__notify').text(data.cart_length);
+      }
+    });
+  });
+}
+
+$(document).ready(() => {
+  ajaxAddToCart();
+  ajaxQuantityPlusAddToCart();
+  ajaxQuantityMinusAddToCart();
+});
+
+// Ajax delete product on CART PAGE
+
+const deleteFromCart = () => {
+  $(document).off("click", ".delete_product_button").on("click", ".delete_product_button", function(e) {
+    e.preventDefault();
+    let currentElement = $(this);
+    let url = currentElement.attr('href');
+
+    let totalPriceCartBlock = $('.total_price_cart');
+    let totalPriceCart = totalPriceCartBlock.data("cart-total-price");
+
+    let totalPriceItemBlock = currentElement.closest(".product-card-at-cart").find(".total_price_item");
+    let totalPriceItem = totalPriceItemBlock.data("item-total-price")
+    console.log("Total-price", totalPriceItem)
+
+    // update total cart price
+    let oldPriceTotalCart = parseFloat(totalPriceCart);
+    let newPriceTotalCart = parseFloat(totalPriceCart) - parseFloat(totalPriceItem);
+    console.log(oldPriceTotalCart, newPriceTotalCart)
+    updatePrice(totalPriceCartBlock, "cart-total-price", parseFloat(oldPriceTotalCart), parseFloat(newPriceTotalCart)); 
+    if (totalPriceCartBlock.data("cart-total-price") < 0.01) {
+      $("#cart-main-row").prop("hidden", true);
+      $("#cart-main").find(".empty-cart").removeAttr("hidden");
+    };
+    $.ajax({
+      headers: {
+        "X-CSRFToken": csrfToken
+      },
+      url: url,
+      method: "DELETE",
+      type: "DELETE",
+      error: err => {
+        console.log(err);
+      },
+      success: (data) => {
+        currentElement.closest('.product-card-at-cart').remove();
+        if (data.cart_length < 1) {
+          $('.navbar-pc__notify').remove();
+        }
+        else {
+          $('.navbar-pc__notify').text(data.cart_length);
+        }
+      }
+    });
+  });
+}
+
+const updateMinusButtonCart = () => {
+  let cartQuantityMinus = $(".cart_quantity__minus");
+  cartQuantityMinus.each(function() {
+    let currentElement = $(this);
+    let cartProductQuantityBlock = currentElement.parent(".cart_product_quantity");
+    let productQuantity = cartProductQuantityBlock.find(".product_quantity");
+    if (productQuantity.text().trim() == "1") {
+      currentElement.prop("disabled", true);
+    }
+    else {
+      currentElement.removeAttr("disabled");
+    }
+  });
+};
+
+const updatePrice = (element, data, oldPrice, newPrice) => {
+  let duration = 800; // Продолжительность анимации в миллисекундах
+  let interval = 20; // Интервал обновления цены в миллисекундах
+  let steps = duration / interval; // Количество шагов анимации
+
+  let direction = (newPrice - oldPrice) >= 0 ? 1 : -1; // Направление изменения цены
+
+  let step = Math.abs(newPrice - oldPrice) / steps * direction; // Величина изменения цены на каждом шаге
+
+  let currentPrice = oldPrice; // Текущая цена
+
+  let priceElement = element;
+
+  // Запуск анимации
+  let timer = setInterval(function() {
+    currentPrice += step; // Обновление текущей цены
+
+    // Округление до двух знаков после запятой
+    let roundedPrice = currentPrice.toFixed(2);
+
+    // Отображение текущей цены
+    priceElement.text(roundedPrice + ' zł');
+
+    // Остановка анимации, когда достигнута новая цена
+    if ((direction === 1 && currentPrice >= newPrice) || (direction === -1 && currentPrice <= newPrice)) {
+      clearInterval(timer);
+      priceElement.text(newPrice.toFixed(2) + ' zł');
+    }
+  }, interval);
+  element.data(data, newPrice.toFixed(2)); 
+}
+
+// Ajax minus quntity or delete product on CART PAGE
+const quantityMinusCart = () => {
+  $(document).off("click", ".cart_quantity__minus").on("click", ".cart_quantity__minus", function(e) {
+    e.preventDefault();
+    let currentElement = $(this);
+    let url = currentElement.data("url");
+    let cartProductQuantityBlock = currentElement.parent(".cart_product_quantity");
+    let productCardAtCart = cartProductQuantityBlock.parent().parent(".product-card-at-cart");
+    let totalPriceCartBlock = $('.total_price_cart')
+    let totalPriceCart = totalPriceCartBlock.data("cart-total-price")
+
+    let totalPriceItemBlock = productCardAtCart.find(".total_price_item");
+    let totalPriceItem = totalPriceItemBlock.data("item-total-price")
+
+    let priceItemBlock = productCardAtCart.find(".item_price");
+    let itemPrice = priceItemBlock.data("item-price");
+
+    let productQuantity = cartProductQuantityBlock.find(".product_quantity");
+
+    // update total product price
+    let oldPriceTotalItem = parseFloat(totalPriceItem);
+    let newPriceTotalItem = parseFloat(totalPriceItem) - parseFloat(itemPrice);
+    updatePrice(totalPriceItemBlock, "item-total-price", parseFloat(oldPriceTotalItem), parseFloat(newPriceTotalItem));
+
+    // update total cart price
+    let oldPriceTotalCart = parseFloat(totalPriceCart);
+    let newPriceTotalCart = parseFloat(totalPriceCart) - parseFloat(itemPrice);
+    updatePrice(totalPriceCartBlock, "cart-total-price", parseFloat(oldPriceTotalCart), parseFloat(newPriceTotalCart));
+
+    if (totalPriceCartBlock.data("cart-total-price") < 0.01) {
+      $("#cart-main-row").prop("hidden", true);
+      $("#cart-main").find(".empty-cart").removeAttr("hidden");
+    }
+    let quantity__minus = -1;
+    $.ajax({
+      headers: {
+        "X-CSRFToken": csrfToken
+      },
+      url: url,
+      method: 'POST',
+      data: {
+        'quantity': quantity__minus,
+      },
+      type: 'POST',
+      error: err => {
+        console.log(err);
+      },
+      success: (data) => {
+        productQuantity.text(`${data.product_quantity}`);
+        updateMinusButtonCart();
+
+        
+
+        if (data.cart_length < 1) {
+          $('.navbar-pc__notify').remove();
+        }
+        else {
+          $('.navbar-pc__notify').text(data.cart_length);
+        }
+      }
+    });
+    
+  });
+}
+
+// Ajax plus quntity or delete product on CART PAGE
+const quantityPlusCart = () => {
+  $(document).off("click", ".cart_quantity__plus").on("click", ".cart_quantity__plus", function(e) {
+    e.preventDefault();
+    let currentElement = $(this);
+    let url = currentElement.data("url");
+    let totalPriceCartBlock = $('.total_price_cart')
+    let totalPriceCart = totalPriceCartBlock.data("cart-total-price")
+
+    let cartProductQuantityBlock = currentElement.parent(".cart_product_quantity");
+    let productCardAtCart = cartProductQuantityBlock.parent().parent(".product-card-at-cart");
+
+    let totalPriceItemBlock = productCardAtCart.find(".total_price_item")
+    let totalPriceItem = totalPriceItemBlock.data("item-total-price")
+
+    let priceItemBlock = productCardAtCart.find(".item_price")
+    let itemPrice = priceItemBlock.data("item-price");
+
+    let productQuantity = cartProductQuantityBlock.find(".product_quantity");
+
+    // update total product price
+    let oldPriceTotalItem = parseFloat(totalPriceItem);
+    let newPriceTotalItem = parseFloat(totalPriceItem) + parseFloat(itemPrice);
+    updatePrice(totalPriceItemBlock, "item-total-price", parseFloat(oldPriceTotalItem), parseFloat(newPriceTotalItem)); 
+
+    // update total cart price
+    let oldPriceTotalCart = parseFloat(totalPriceCart);
+    let newPriceTotalCart = parseFloat(totalPriceCart) + parseFloat(itemPrice);
+    updatePrice(totalPriceCartBlock, "cart-total-price", parseFloat(oldPriceTotalCart), parseFloat(newPriceTotalCart)); 
+    let quantity__plus = 1;
+    $.ajax({
+      headers: {
+        "X-CSRFToken": csrfToken
+      },
+      url: url,
+      method: 'POST',
+      data: {
+        'quantity': quantity__plus,
+      },
+      type: 'POST',
+      error: err => {
+        console.log(err);
+      },
+      success: (data) => {
+        productQuantity.text(`${data.product_quantity}`);
+
+        
+
+        updateMinusButtonCart();
+        $('.navbar-pc__notify').text(data.cart_length);
+      }
+    });
+  });
+}
+
+$(document).ready(() => {
+  deleteFromCart();
+  updateMinusButtonCart();
+  quantityMinusCart();
+  quantityPlusCart();
 });
