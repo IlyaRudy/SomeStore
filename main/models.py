@@ -15,6 +15,7 @@ def upload_to_images(instance, filename):
 
 class User(AbstractUser):
     cart = models.JSONField(default=dict, blank=True, null=True)
+    favorite = models.JSONField(default=dict, blank=True, null=True)
 
 
 class Product(models.Model):

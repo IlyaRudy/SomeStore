@@ -9,6 +9,7 @@ from search.views import SearchView
 urlpatterns = [
     path('category/', include('category.urls')),
     path('account/', include('accounts.urls')),
+    path('favorite/', include('favorite.urls')),
     path('cart/', include('cart.urls')),
     path('search/', SearchView.as_view(), name='search'),
     path('', include('main.urls')),

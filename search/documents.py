@@ -17,14 +17,16 @@ class ProductDocument(Document):
         'image': fields.FileField(),
     })
 
+    price = fields.FloatField()
+    
     class Index:
         name = 'products'
 
     class Django:
         model = Product
         fields = [
+            'id',
             'title',
-            'price',
             'product_slug',
             'card_title',
             'brand_name',

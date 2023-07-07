@@ -23,4 +23,4 @@ RUN pip install -r requirements.txt
 
 USER ir
 
-CMD ["gunicorn","-b","0.0.0.0:8001","somestore.wsgi:application"]
+CMD ["gunicorn","-b","0.0.0.0:8000","somestore.wsgi:application"]

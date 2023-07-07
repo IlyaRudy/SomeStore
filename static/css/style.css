@@ -183,7 +183,7 @@ body button {
 .card-title:hover {
   color: var(--color_pink);
 }
-.card-add {
+.card-add, .go-to-card, .card-add-fp {
   display: block;
   width: 100%;
   font-weight: 400;
@@ -197,7 +197,7 @@ body button {
   margin-top: auto; 
 }
 
-.card-add:hover {
+.card-add:hover, .go-to-card:hover, .card-add-fp:hover {
   border: 1px solid var(--color_pink);
   background-color: var(--color_pink);
   color: white;
@@ -257,11 +257,13 @@ body button {
 .modal-quick-view button:hover {
   color: var(--color_pink);
 }
-.product-thumb #icon-heart {
+.product-thumb #icon-heart,
+.product-thumb .product-add-to-favorite {
   display: none;
 }
 
-.product-card:hover #icon-heart {
+.product-card:hover #icon-heart,
+.product-card .product-add-to-favorite {
   display: flex;
   position: absolute;
   height: 24px;
@@ -274,7 +276,8 @@ body button {
   transition: all .5s ease;
 }
 
-.product-card:hover #icon-heart:hover {
+.product-card:hover #icon-heart:hover,
+.product-card .product-add-to-favorite {
   transform: scale(1.1);
   color: var(--color_pink);
 }
@@ -341,14 +344,11 @@ body button {
   transform: translate(-50%,-50%);
   transition: all .5s ease;
 }
-.quick-view-rs .rs-heart i {
+.quick-view-rs .rs-heart #icon-heart {
   color: #000;
 }
-.quick-view-rs .rs-heart:hover{
-  transform: translate(-40%,-50%) scale(1.3);
-
-}
-.quick-view-rs .rs-heart #icon-heart:hover{
+.product-add-to-favorite-quick-view,
+.quick-view-rs .rs-heart #icon-heart:hover {
   color: var(--color_pink);
 }
 .title-quick-view {
@@ -528,7 +528,7 @@ body button {
 /* cart-page */
 .product-card-at-cart {
   box-shadow: 0px 3px 6px 4px rgba(0, 0, 0, 0.2);
-  height: 10em;
+  height: 18em;
   margin-bottom: 1.5em;
 }
 #totalBlock {
@@ -652,6 +652,37 @@ body button {
   text-transform: uppercase;
 }
 /* /cart-page */
+/* favorite-page */
+.favorite-card {
+  box-shadow: 0px 3px 6px 4px rgba(0, 0, 0, 0.2);
+
+  margin-bottom: 1.5em;
+}
+
+.fav-delete_product_button {
+  color: #6c757d;
+  cursor: pointer;
+  transition: 0.2s;
+  opacity: 0.3;
+  position: absolute;
+  top: 1em;
+  right: 0.5em;
+}
+
+.fav-delete_product_button:hover {
+  color: var(--color_pink);
+  opacity: 0.6;
+}
+
+.favorite-empty {
+  margin: 1em 0 1.5em 0;
+  width: 100%;
+  height: 10em;
+  box-shadow: 0px 3px 6px 4px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  padding-top: 2.7em;
+}
+/* /favorite-page */
 
 /* footer */
 footer {
@@ -688,7 +719,7 @@ footer {
     display: none;
   }
  
-  .card-add {
+  .card-add, .go-to-card, .card-add-fp {
     border: 1px solid var(--color_pink);
     background-color: var(--color_pink);
     color: white;
