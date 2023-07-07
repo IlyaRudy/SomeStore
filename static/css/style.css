@@ -183,7 +183,7 @@ body button {
 .card-title:hover {
   color: var(--color_pink);
 }
-.card-add, .go-to-card {
+.card-add, .go-to-card, .card-add-fp {
   display: block;
   width: 100%;
   font-weight: 400;
@@ -197,7 +197,7 @@ body button {
   margin-top: auto; 
 }
 
-.card-add:hover, .go-to-card:hover {
+.card-add:hover, .go-to-card:hover, .card-add-fp:hover {
   border: 1px solid var(--color_pink);
   background-color: var(--color_pink);
   color: white;
@@ -528,7 +528,7 @@ body button {
 /* cart-page */
 .product-card-at-cart {
   box-shadow: 0px 3px 6px 4px rgba(0, 0, 0, 0.2);
-  height: 10em;
+  height: 18em;
   margin-bottom: 1.5em;
 }
 #totalBlock {
@@ -652,6 +652,37 @@ body button {
   text-transform: uppercase;
 }
 /* /cart-page */
+/* favorite-page */
+.favorite-card {
+  box-shadow: 0px 3px 6px 4px rgba(0, 0, 0, 0.2);
+
+  margin-bottom: 1.5em;
+}
+
+.fav-delete_product_button {
+  color: #6c757d;
+  cursor: pointer;
+  transition: 0.2s;
+  opacity: 0.3;
+  position: absolute;
+  top: 1em;
+  right: 0.5em;
+}
+
+.fav-delete_product_button:hover {
+  color: var(--color_pink);
+  opacity: 0.6;
+}
+
+.favorite-empty {
+  margin: 1em 0 1.5em 0;
+  width: 100%;
+  height: 10em;
+  box-shadow: 0px 3px 6px 4px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  padding-top: 2.7em;
+}
+/* /favorite-page */
 
 /* footer */
 footer {
@@ -688,7 +719,7 @@ footer {
     display: none;
   }
  
-  .card-add, .go-to-card {
+  .card-add, .go-to-card, .card-add-fp {
     border: 1px solid var(--color_pink);
     background-color: var(--color_pink);
     color: white;

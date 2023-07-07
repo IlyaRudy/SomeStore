@@ -663,6 +663,7 @@ const deleteFromFavorite = () => {
         currentElement.closest('.row').remove();
         if (data.favorite_length < 1) {
           $('.navbar-heart__notify').remove();
+          $('.favorite-empty').removeAttr("hidden");
         }
         else {
           $('.navbar-heart__notify').text(data.favorite_length);
@@ -672,7 +673,43 @@ const deleteFromFavorite = () => {
   });
 }
 
+//Ajax add to cart from FavoritePage
+const ajaxAddToCartFromFavoritePage = () => {
+    $(document).off("click", ".card-add-fp").on("click", ".card-add-fp", function(e) {
+      e.preventDefault();
+      let currentElement = $(this);
+      let url = currentElement.data("url");
+
+      currentElement.prop("hidden", true);
+      currentElement.next('a').removeAttr("hidden");
+      console.log(".card-add-fp")
+
+      $.ajax({
+        headers: {
+          "X-CSRFToken": csrfToken
+        },
+        url: url,
+        method: 'POST',
+        type: 'POST',
+        error: err => {
+          console.log(err);
+        },
+        success: (data) => {
+          // Change cart notify on icon
+          if (!$('.navbar-pc__notify').length) {
+            $(`<span class="navbar-pc__notify">${data.cart_length}</span>`).appendTo('#dropdownCart');
+          }
+          else {
+            $('.navbar-pc__notify').text(data.cart_length);
+          }
+        }
+      });
+    });
+  }
+
+
 $(document).ready(() => {
   addToFavorite();
   deleteFromFavorite();
+  ajaxAddToCartFromFavoritePage();
 });

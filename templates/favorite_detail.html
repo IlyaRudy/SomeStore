@@ -5,40 +5,42 @@
 {% block content %}
 <div class="container" id="favorite-main">
     <h4 class="mt-5 mt-md-2">Ulubione oferty</h4>
-  
       {% for item in favorite %}
         {% with product=item.product %}
-          <div class="row justify-content-center">
-            <div class="col-12">
-          
-              <div class="row mb-4 mx-0">
-                  <div class="col-2 col-lg-2">
+          <div class="row justify-content-center mx-3 favorite-card mx-sm-0">
+            <div class="col-12 position-relative">
+              <i href="{% url 'favorite:favorite_remove' product.id %}" class="fa-solid fa-xmark fa-lg fav-delete_product_button"></i>
+              <div class="row  ">
+                  <div class="col-6 col-md-2">
                     <a class="text-decoration-none" href="{{ product.get_absolute_url }}">
                       <div class="product_main_img"><img src="{{ product.product_main_img.url }}"></div>
                     </a>
                   </div>
                   
-                  <div class="col-4 col-lg-4 my-auto">
+                  <div class="col-6 col-md-6 my-auto">
                     <div class="product_title">{{ product.card_title }}<div class="item_price">{{ item.price }} zł</div></div> 
                   </div>
                   
-                  <div class="col-6 col-lg-6 my-auto">
-                    <i href="{% url 'favorite:favorite_remove' product.id %}" class="fa-solid fa-trash fav-delete_product_button" style='color: #000; cursor: pointer;'></i>
-                    <button class="card-add" data-url="{% url 'cart:cart_add' product.id %}" data-product-id="{{ product.id }}">Dodaj do koszyka</button>
-                    <button class="go-to-card" data-url="{% url 'favorite:favorite_detail' %}">Przejdź do koszyka</button>
+                  <div class="col-12 col-md-4 mt-md-auto mb-3 position-relative">
+                    <button class="card-add-fp" style="z-index: 1;" data-url="{% url 'cart:cart_add' product.id %}" data-product-id="{{ product.id }}"
+                       {% if product.id|stringformat:"s" in cart.get_products_ids %}hidden{% endif %}>Dodaj do koszyka</button>
+                    <a href="{% url 'cart:cart_detail' %}" class="text-decoration-none"{% if product.id|stringformat:"s" not in cart.get_products_ids %}hidden{% endif %}>
+                      <button class="go-to-card" style="z-index: 1;">Przejdź do koszyka</button>
+                    </a>
                   </div>
+                  
               </div>  
 
             </div>
+            
           </div>
         {% endwith %}
       {% endfor %}
-    
-    <div class="">
-      <h3 class="">Jeszcze niczego nie polubiłeś/łaś</h3>
-      <div class="">
+    <div class="favorite-empty" style="text-align: center;"{% if favorite|length > 0 %}hidden{% endif %}>
+      <h3 class="favorite-h3">Jeszcze niczego nie polubiłeś/łaś</h3>
+      <div class="favorite-text">
         <p>kliknij 
-          <i class="bi bi-heart-fill" style='color: #000'>polub</i>, żeby zapisać ciekawe oferty.
+          <i class="bi bi-heart" style='color: #000'>polub</i>, żeby zapisać ciekawe oferty.
         </p>
       </div>
     </div>

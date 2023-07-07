@@ -24,7 +24,8 @@
       </div>
     </a>
     <div class="product-bottom-details text-center p-1">
-      <button class="card-add" data-url="{% url 'cart:cart_add' product.id %}" data-product-id="{{ product.id }}"{% if product.id|stringformat:"s" in cart.get_products_ids %}hidden{% endif %}>Dodaj do koszyka</button>
+      <button class="card-add" data-url="{% url 'cart:cart_add' product.id %}" data-product-id="{{ product.id }}"
+      {% if product.id|stringformat:"s" in cart.get_products_ids %}hidden{% endif %}>Dodaj do koszyka</button>
       <div class="quantity" {% if product.id|stringformat:"s" not in cart.get_products_ids %}hidden{% endif %}>
         <button type="button" class="quantity__minus" data-url="{% url 'cart:cart_add' product.id %}">
           <i class="fa-solid fa-minus"></i>
