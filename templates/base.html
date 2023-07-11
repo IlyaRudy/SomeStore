@@ -18,7 +18,8 @@
   <link rel="stylesheet" href="{{ STATIC_PREFIX }}css/bootstrap.min.css" />
   <link rel="stylesheet" href="{{ STATIC_PREFIX }}css/bootstrap-icons.min.css" />
   <link rel="stylesheet" href="{{ STATIC_PREFIX }}css/all.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+  {% comment %} <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" /> {% endcomment %}
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
   <!-- style css -->
   <link rel="stylesheet" href="{{ STATIC_PREFIX }}css/style.css" />
   {% block head %}{% endblock head %}
@@ -36,34 +37,17 @@
               aria-controls="offcanvasScrolling"></i>
           </button>
 
-          <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
-            id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
-            <div class="offcanvas-header">
-              <h1 class="offcanvas-title" id="offcanvasScrollingLabel">
-                Kategorie
-              </h1>
-              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
-            <div class="offcanvas-body">
-              {% for ctg in all_categories %}
-              <!-- all categories -->
-              <a href="{{ ctg.get_absolute_url }}">
-                <p class="category-name">
-                  <i class="{{ ctg.category_icon }}"></i>{{ ctg.title }}
-                </p>
-              </a>
-              <!-- /all categories -->
-              {% endfor %}
-            </div>
-          </div>
+          
           <a href="{% url 'main:index' %}" class="d-flex text-dark text-decoration-none align-items-center">
             <h1 class="main-title">Tytuł</h1>
           </a>
         </div>
 
         <div class="col-12 col-lg-8" id="nav_search">
-          <form action="{% url 'search' %}" method="get">
-            <input id="query" name="query" type="search" class="form-control" {% if request.GET.q %}value="{{ request.GET.query }}"{% else %} placeholder="Szukaj..." {% endif %} aria-label="Search" />
+          <form action="{% url 'search' %}" method="get" class="search-form">
+            <input id="search" name="query" type="text" {% if request.GET.q %}value="{{ request.GET.query }}"
+            {% else %} placeholder="Szukaj..."{% endif %} aria-label="Search" />
+            <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
           </form>
         </div>
 
@@ -137,56 +121,178 @@
       
     </header>
   </div>
-  <div class="mob-nav-bar-top d-md-none container-fluid d-block fixed-top container-fluid">
-    <div class="row d-flex justify-content-between">
-      <div class="col-auto"><h1 class="main-title">Tytuł</h1></div>
-      <div class="col-auto"><i class="bi bi-search"></i></div>
+
+<div class="mob-nav-bar-top d-md-none container-fluid d-block fixed-top container-fluid">
+  <div class="row d-flex justify-content-between">
+    <div class="col-auto mob-nav-bar-top-title">
+      <a href="{% url 'main:index' %}" class="d-flex text-decoration-none">
+        <h1 class="main-title">Tytuł</h1>
+      </a>
+    </div>
+    <div class="col-8 mob-nav-bar-top-search-form" hidden>
+      <form action="{% url 'search' %}" method="get" class="search-form">
+        <input id="search" name="query" type="text" {% if request.GET.q %}value="{{ request.GET.query }}"
+        {% else %} placeholder="Szukaj..."{% endif %} aria-label="Search" />
+        <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+      </form>
+    </div> 
+    <div class="col-auto mob-nav-bar-top-search-icon">
+      <i class="bi bi-search" data-bs-toggle="offcanvas" data-bs-target="#mobSearch" aria-controls="mobSearch"></i>
+
+      
     </div>
   </div>
-  <div class="mob-nav-bar-bottom d-block d-md-none fixed-bottom container-fluid">
-    <div class="row d-flex justify-content-evenly">
-      <div class="col-auto"><i class="bi bi-house-door-fill"></i></div>
-      <div class="col-auto"><i class="bi bi-menu-button-wide"></i></div>
-      <div class="col-auto"><i class="bi bi-cart-fill"></i></div>
-      <div class="col-auto"><i class="bi bi-heart-fill"></i></div>
-      <div class="col-auto"><i class="bi bi-person-fill"></i></div>
+</div>
+  
+<div class="mob-nav-bar-bottom d-block d-md-none fixed-bottom container-fluid">
+  <div class="row d-flex justify-content-evenly">
+
+    <div class="col-auto">
+      <a href="{% url 'main:index' %}" class="text-decoration-none">
+        <i class="bi bi-house-door-fill"></i>
+      </a>
     </div>
+
+    <div class="col-auto" id="nav_left">
+      <i class="bi bi-menu-button-wide" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling"
+            aria-controls="offcanvasScrolling"></i>
+
+      
+    </div>
+
+    <div class="col-auto" style="position: relative;">
+      {% with total_items=cart|length %}
+      <a href="{% url 'cart:cart_detail' %}" class="d-flex text-decoration-none" id="cartNavIconMob">
+        <i class="bi bi-cart-fill fs-4"></i>
+        {% if total_items %}
+        <span class="navbar-pc__notify">
+          {{ total_items }}
+        </span>
+        {% endif %}
+      </a>
+      {% endwith %}
+    </div>
+
+    <div class="col-auto" style="position: relative;">
+      {% with total_items=favorite|length %}
+      <a href="{% url 'favorite:favorite_detail' %}" class="d-flex text-decoration-none" id="favoriteNavIconMob">
+        <i class="bi bi-heart-fill fs-4"></i>
+        {% if total_items %}
+          <span class="navbar-heart__notify">
+            {{ total_items }}
+          </span>
+        {% endif %}
+      </a>
+      {% endwith %}
+    </div>
+
+    <div class="col-auto">
+      <div class="dropup">
+        <a href="#" class="d-block link-dark text-decoration-none" id="dropupUser"
+          data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="bi bi-person-fill fs-4"></i>
+        </a>
+        <ul class="dropdown-menu text-small" aria-labelledby="dropupUser">
+          <li><a class="dropdown-item" href="#">New project...</a></li>
+          <li><a class="dropdown-item" href="#">Settings</a></li>
+          <li><a class="dropdown-item" href="#">Profile</a></li>
+          <li>
+            <hr class="dropdown-divider" />
+          </li>
+          <li>
+            {% if user.is_authenticated %}
+            <a class="dropdown-item" href="{% url 'accounts:logout' %}">Sign out</a>
+            {% else %}
+            <a class="dropdown-item" href="{% url 'accounts:signup-login' %}">Sign in</a>
+            {% endif %}
+          </li>
+        </ul>
+      </div>
+    </div>
+
   </div>
+</div>
   <!-- /header -->
-  {% block content %}  {% endblock content %}
+{% block content %}  {% endblock content %}
 
 
       
   <!-- footer -->
-  <div class="container-fluid" id="footer-container-fluid">
-    <footer class="container">
-      <div class="d-flex justify-content-between align-items-center">
-        <div>
-          <a class="text-decoration-none link-dark" href="#" target="_blank"><span class="footer_title">Tytuł</span></a>
-        </div>
-        <div class="d-flex align-items-center text-white copyright-text text-wrap">
-          Fragmenty tej zawartości są ©2023 autorstwa poszczególnych autorów Tytułu
-        </div>
-        <div class="footer_icon ">
-          <ul class="d-flex gap-3 list-unstyled mt-3">
-            <li>
-              <a href="#"><i class="bi bi-facebook"></i></a>
-            </li>
-            <li>
-              <a href="#"><i class="bi bi-twitter"></i></a>
-            </li>
-            <li>
-              <a href="#"><i class="bi bi-instagram"></i></a>
-            </li>
-          </ul>
-        </div>
+<div class="container-fluid mb-5 mb-md-0" id="footer-container-fluid">
+  <footer class="container">
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <a class="text-decoration-none link-dark" href="#" target="_blank"><span class="footer_title">Tytuł</span></a>
       </div>
-    </footer>
-  </div>
+      <div class="d-flex align-items-center text-white copyright-text text-wrap">
+        ©2023 
+      </div>
+      <div class="footer_icon ">
+        <ul class="d-flex gap-3 list-unstyled mt-3">
+          <li>
+            <a href="#"><i class="bi bi-facebook"></i></a>
+          </li>
+          <li>
+            <a href="#"><i class="bi bi-twitter"></i></a>
+          </li>
+          <li>
+            <a href="#"><i class="bi bi-instagram"></i></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+</div>
   <!-- /footer -->
+
+<!-- category menu -->
+<div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
+          id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+  <div class="offcanvas-header">
+    <h1 class="offcanvas-title" id="offcanvasScrollingLabel">
+      Kategorie
+    </h1>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    {% for ctg in all_categories %}
+    <!-- all categories -->
+    <a href="{{ ctg.get_absolute_url }}">
+      <p class="category-name">
+        <i class="{{ ctg.category_icon }}"></i>{{ ctg.title }}
+      </p>
+    </a>
+    <!-- /all categories -->
+    {% endfor %}
+  </div>
+</div>
+<!-- /category menu -->
+
+  <!-- mob search -->
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="mobSearch" aria-labelledby="mobSearchLabel">
+    <div class="offcanvas-header">
+      <form action="{% url 'search' %}" method="get" class="search-form mob-nav-search-form">
+        <input id="mob-search" name="query" type="text" {% if request.GET.q %}value="{{ request.GET.query }}"
+        {% else %} placeholder="Szukaj..."{% endif %} aria-label="Search" />
+        <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+      </form>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+  </div>
+  <!-- /mob search -->
+  <div class="col-8 mob-nav-bar-top-search-form" hidden>
+    
+  </div> 
+
+
+
   <script src="{{ STATIC_PREFIX }}js/bootstrap.bundle.min.js"></script>
   <script src="{{ STATIC_PREFIX }}js/jquery-3.7.0.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+  {% comment %} <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script> {% endcomment %}
+  <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-element-bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/handlebars@4.7.7/dist/handlebars.min.js"></script>
+  <script src="http://twitter.github.io/typeahead.js/releases/latest/typeahead.bundle.js"></script>
   <script>
     var csrfToken = '{{ csrf_token }}';
   </script>

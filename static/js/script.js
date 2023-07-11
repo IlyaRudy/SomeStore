@@ -12,9 +12,8 @@ const productDescription = document.querySelector('.product-description');
 
 
 
-// swiper
-const swiper = new Swiper('.swiper', {
-  // Optional parameters
+// swiper another product on product page
+const swiperProducts = new Swiper('.swiper', {
   loop: true,
   speed: 800,
   slidesPerView: 2,
@@ -34,9 +33,24 @@ const swiper = new Swiper('.swiper', {
     el: '.swiper-scrollbar',
   },
 });
+  
+const swiperImage = new Swiper('#swiperImages', {
+
+  loop: true,
+  navigation: {
+    nextEl: '.swiper-button-next',
+    prevEl: '.swiper-button-prev',
+  },
+  scrollbar: {
+    el: '.swiper-scrollbar',
+  },
+});
 
 // rotate search
 let nav_search_move = false;
+
+// swiper another product on product page
+
 
 function insertAfter(newNode, existingNode) {
   existingNode.parentNode.insertBefore(newNode, existingNode.nextSibling);
@@ -173,6 +187,8 @@ const ajaxAddToCart = () => {
         // Change cart notify on icon
         if (!$('.navbar-pc__notify').length) {
           $(`<span class="navbar-pc__notify">${data.cart_length}</span>`).appendTo('#dropdownCart');
+          $(`<span class="navbar-pc__notify">${data.cart_length}</span>`).appendTo('#cartNavIconMob');
+
         }
         else {
           $('.navbar-pc__notify').text(data.cart_length);
@@ -604,6 +620,7 @@ const addToFavorite = () => {
           // Change cart notify on icon
           if (!$('.navbar-heart__notify').length) {
             $(`<span class="navbar-heart__notify">${data.favorite_length}</span>`).appendTo('#favoriteNavIcon');
+            $(`<span class="navbar-heart__notify">${data.favorite_length}</span>`).appendTo('#favoriteNavIconMob');
           }
           else {
             $('.navbar-heart__notify').text(data.favorite_length);
@@ -712,4 +729,89 @@ $(document).ready(() => {
   addToFavorite();
   deleteFromFavorite();
   ajaxAddToCartFromFavoritePage();
+});
+
+// typeahead suggestions
+$(document).ready(() => {
+  const searchInput = $('#search');
+
+  const typeaheadInstance = searchInput.typeahead({
+    minLength: 0,
+    highlight: true,
+  }, {
+    name: 'text-input-prompts',
+    source: (query, syncResults, asyncResults) => {
+      $.ajax({
+        url: '/search/text-input-prompts/',
+        data: {
+          query: query
+        },
+        success: function(data) {
+          asyncResults(data);
+        }
+      });
+    },
+    display: 'title',
+    templates: {
+        suggestion: Handlebars.compile(`
+        <div>{{title}}{{query}}</div>
+      `)
+    }
+  });
+});
+
+// mob search
+$(document).ready(() => {
+  const mobSearchInput = $('#mob-search');
+
+  const typeaheadInstance = mobSearchInput.typeahead({
+    minLength: 0,
+    highlight: true,
+  }, {
+    name: 'text-input-prompts',
+    source: (query, syncResults, asyncResults) => {
+      $.ajax({
+        url: '/search/text-input-prompts/',
+        data: {
+          query: query
+        },
+        success: function(data) {
+          asyncResults(data);
+        }
+      });
+    },
+    display: 'title',
+    templates: {
+        suggestion: Handlebars.compile(`
+        <div>{{title}}{{query}}</div>
+      `)
+    }
+  });
+});
+
+
+// active class to search
+$(document).ready(() => {
+  const form = $('.search-form');
+
+  const isClickedInsideForm = event => {
+    let targetElement = $(event.target);
+    return targetElement.is(form) || targetElement.parents().is(form);
+  };
+
+  const activateForm = () => {
+    form.addClass('active');
+  };
+
+  const deactivateForm = () => {
+    form.removeClass('active');
+  };
+
+  $(document).click(event => {
+    if (isClickedInsideForm(event)) {
+      activateForm();
+    } else {
+      deactivateForm();
+    }
+  });
 });

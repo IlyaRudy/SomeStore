@@ -6,19 +6,30 @@
   {% block content %}
   <!-- main content -->
   <main class="container mt-5 mt-md-3 p-sm-0" id="product-card">
+  
         <div class="row d-flex product-ls">
-            <div class="col-lg-6 col-12">
-                <div class="img-picker row d-flex">
-                    <div class="col-12 col-lg-2 thumbnails position-relative my-auto" id="product-image-thumbnail">
-                        <img class="img-thumbnail rounded active" src="{{ product.product_main_img.url }}" alt="product-main-image">
-                        {% for img in product.thumbnail_images.all %}
-                        <img class="img-thumbnail rounded" src="{{ img.image.url }}" alt="{{ img.image.name }}">
-                        {% endfor %}
-                    </div>
-                    <div class="col-lg-10 col-12 product-image d-flex justify-content-center my-auto" id="product-main-image">
-                        <img src="{{ product.product_main_img.url }}" alt="Product image">
-                    </div>
-                </div>
+            <div class="col-12 col-lg-6 position-relative" style="height: 600px;">
+                <swiper-container class="mySwiper" thumbs-swiper=".mySwiper2" loop="true" space-between="10" navigation="true">
+                    <swiper-slide>
+                        <img class="" src="{{ product.product_main_img.url }}" alt="product-main-image">
+                    </swiper-slide>
+                    {% for img in product.thumbnail_images.all %}
+                    <swiper-slide>
+                        <img class="" src="{{ img.image.url }}" alt="{{ img.image.name }}">
+                    </swiper-slide>
+                    {% endfor %}
+                </swiper-container>
+                <swiper-container class="mySwiper2" loop="true" space-between="10" slides-per-view="4" free-mode="true"
+                watch-slides-progress="true">
+                    <swiper-slide>
+                        <img class="" src="{{ product.product_main_img.url }}" alt="product-main-image">
+                    </swiper-slide>
+                    {% for img in product.thumbnail_images.all %}
+                    <swiper-slide>
+                        <img class="" src="{{ img.image.url }}" alt="{{ img.image.name }}">
+                    </swiper-slide>
+                    {% endfor %}
+                </swiper-container>
             </div>
             <div class="col-lg-6 product-rs">
                 <div class="row category-nav-name">
@@ -35,17 +46,31 @@
                 </div>
                 <p class="product-description">{{ product.description }}</p>
                 <div class="product-bottom-details">
-                    <button class="card-add" data-url="{% url 'cart:cart_add' product.id %}" data-product-id="{{ product.id }}"{% if product.id|stringformat:"s" in cart.get_products_ids %}hidden{% endif %}>Dodaj do koszyka</button>
-                    <div class="quantity" {% if product.id|stringformat:"s" not in cart.get_products_ids %}hidden{% endif %}>
-                        <button type="button" class="quantity__minus" data-url="{% url 'cart:cart_add' product.id %}">
-                        <i class="fa-solid fa-minus"></i>
-                        </button> 
-                        <div class="product_quantity">
-                            {% product_quantity cart product.id %}
+                    <div class="row">
+                        <div class="col-10">
+                            <button class="card-add" data-url="{% url 'cart:cart_add' product.id %}" data-product-id="{{ product.id }}"{% if product.id|stringformat:"s" in cart.get_products_ids %}hidden{% endif %}>Dodaj do koszyka</button>
+                            <div class="quantity" {% if product.id|stringformat:"s" not in cart.get_products_ids %}hidden{% endif %}>
+                                <button type="button" class="quantity__minus" data-url="{% url 'cart:cart_add' product.id %}">
+                                <i class="fa-solid fa-minus"></i>
+                                </button> 
+                                <div class="product_quantity">
+                                    {% product_quantity cart product.id %}
+                                    
+                                </div>
+                                <button type="button" class="quantity__plus" data-url="{% url 'cart:cart_add' product.id %}">
+                                <i class="fa-solid fa-plus"></i>
+                                </button>
+                            </div>
                         </div>
-                        <button type="button" class="quantity__plus" data-url="{% url 'cart:cart_add' product.id %}">
-                        <i class="fa-solid fa-plus"></i>
-                        </button>
+
+                        <div class="col-2 add-to-favorite-product-page">
+                            <a href="{% url 'favorite:favorite_add' product.id %}" class="a-icon-heart text-decoration-none text-dark" 
+                            data-product-id="{{ product.id }}" {% if product.id|stringformat:"s" in favorite.get_products_ids %}data-already-add=true{% endif %} 
+                            data-url-delete={% url 'favorite:favorite_remove' product.id %} data-place='card'>
+                                <i class="bi bi-heart-fill product-add-to-favorite"{% if not product.id|stringformat:"s" in favorite.get_products_ids %}hidden{% endif %}></i>
+                                <i class="bi bi-heart" id="icon-heart"{% if product.id|stringformat:"s" in favorite.get_products_ids %}hidden{% endif %}></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <div class="row reviews-info">
@@ -83,7 +108,7 @@
                 </div>
             </div>
         </div>
-        <div class="container">
+        <div class="container mt-3 mt-sm-0">
             <h3>Inni klienci oglądali również</h3>
             <div class="swiper">
                 <div class="swiper-wrapper">
