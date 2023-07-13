@@ -21,8 +21,30 @@
   background: linear-gradient(90deg, rgba(255,20,147,1) 0%, rgba(139,27,88,1) 100%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ff1493",endColorstr="#8b1b58",GradientType=1);
 } 
+html,
+    body {
+      height: 100%;
+      margin: 0;
+    }
+
+    #full-container {
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .content {
+      flex: 1;
+    }
+
+    .footer {
+      flex-shrink: 0;
+
+    }
+
 body {
   font-family: 'Rubik', sans-serif;
+  
 }
 body button {
   background-color: white;
@@ -255,7 +277,7 @@ body button {
 .card-title:hover {
   color: var(--color_pink);
 }
-.card-add, .go-to-card, .card-add-fp {
+.card-add, .go-to-card, .card-add-fp, .btn-update-profile {
   display: block;
   width: 100%;
   font-weight: 400;
@@ -269,7 +291,7 @@ body button {
   margin-top: auto; 
 }
 
-.card-add:hover, .go-to-card:hover, .card-add-fp:hover {
+.card-add:hover, .go-to-card:hover, .card-add-fp:hover, .btn-update-profile:hover {
   border: 1px solid var(--color_pink);
   background-color: var(--color_pink);
   color: white;
@@ -544,6 +566,7 @@ body button {
   display: block;
   font-size: 2rem;
 }
+
 .reviews-info, .delivery-info {
   margin-top: .7em;
 
@@ -553,16 +576,20 @@ body button {
   margin: 1em 0;
   cursor: pointer;
 }
+
 .img-picker .thumbnails .active {
   border: 1px solid var(--color_pink) ;
 }
+
 .img-picker .product-image {
   height: 35rem;
 }
+
 .img-picker .product-image img {
   max-width: 100%;
   vertical-align: middle;
 }
+
 .rating {
   display: inline-block;
   unicode-bidi: bidi-override;
@@ -810,7 +837,88 @@ swiper-slide img {
   text-align: center;
   padding-top: 2.7em;
 }
+
 /* /favorite-page */
+
+/* profile */
+
+.first-name {
+  margin-right: 5em;
+}
+
+.profile-info-rs {
+  font-size: 1.2em;
+}
+
+.profile-info-rs i {
+  height: 1em;
+  width: 1em;
+  margin-right: 0.2em;
+  color: var(--color_pink)
+
+}
+.avatar-image {
+  position: relative;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+}
+.avatar-image img {
+  width: 20em;
+  height: 20em; 
+  border-radius: 50%;
+  border: 1px solid rgba(0,0,0,.1);
+}
+.btn-update-profile {
+  padding: 6px;
+}
+.avatar-image i {
+  display: none;
+}
+.avatar-image:hover i {
+  display: block;
+  color: #6c757d;
+  position: absolute;
+  background-color: rgba(217, 223, 221, 0.8);
+  padding: 0.3em;
+  border-radius: 50%;
+  right: 3em;
+}
+.cropper-view-box {
+  border-radius: 50%;
+  overflow: hidden;
+}
+.cropper-container {
+  max-height: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+#previewImage {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+#deleteImage {
+  color: #6c757d;
+  position: absolute;
+  right: 2%;
+  top: 4%;
+  font-size: 1.3em;
+  cursor: pointer;
+}
+#deleteImage:hover {
+  color: #43494e;
+}
+#messageSuccess {
+  display: none;
+  position: absolute;
+  bottom: 10%;
+  right: 0;
+  left: 70%;
+  width: 25vw;
+
+}
+/* /profile */
 
 /* footer */
 footer {
@@ -832,7 +940,11 @@ footer {
 }
 
 /* /footer */
-
+@media (min-width: 720px) {
+  #modalUpdatePhotoDialog {
+    max-width: 70%;
+  }
+}
 @media (max-width: 991px) {
   /* category */
   .category .row .col-6 {
@@ -847,7 +959,7 @@ footer {
     display: none;
   }
  
-  .card-add, .go-to-card, .card-add-fp {
+  .card-add, .go-to-card, .card-add-fp, .btn-update-profile {
     border: 1px solid var(--color_pink);
     background-color: var(--color_pink);
     color: white;
@@ -886,6 +998,12 @@ footer {
     height: 18em;
   }
   /* /cart */
+  /* profile-page */
+  .avatar-image img {
+    width: 17em;
+    height: 17em; 
+  }
+  /* /profile-page */
 }
 
 
@@ -943,4 +1061,10 @@ footer {
   }
   /* /cards */
 
+  /* profile-page */
+  .avatar-image img {
+    width: 12em;
+    height: 12em; 
+  }
+  /* /profile-page */
 }

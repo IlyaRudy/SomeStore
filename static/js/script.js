@@ -815,3 +815,128 @@ $(document).ready(() => {
     }
   });
 });
+
+// cropper avatar image
+$(document).ready(function() {
+  const imageInput = $('#inputphoto');
+  const previewImage = $('#previewImage');
+  const cropButton = $('#updatePhoto');
+  const deleteButton = $('#deleteImage');
+  let cropper; 
+
+  
+  imageInput.on('change', function(e) {
+    const file = e.target.files[0];
+    const filename = file.name;
+    imageInput.prev('label').prop("hidden", true);
+    deleteButton.removeAttr("hidden");
+    const url = $('#updatePhoto').data("url");
+
+    
+    const reader = new FileReader();
+    
+    reader.onload = function(event) {
+      
+      previewImage.attr('src', event.target.result);
+      previewImage.removeAttr("hidden");
+      
+      cropper = new Cropper(previewImage[0], {
+        aspectRatio: 1, 
+        viewMode: 1, 
+        autoCropArea: 1, 
+      });
+      
+      
+      cropButton.on('click', function() {
+      
+        cropper.getCroppedCanvas().toBlob(function(blob) {
+
+          const croppedImageURL = URL.createObjectURL(blob);
+          $('#avatar').attr('src', croppedImageURL);
+          
+          const formData = new FormData();
+          formData.append('image', blob, filename);
+
+          $.ajax({
+            headers: {
+              "X-CSRFToken": csrfToken
+            },
+            url: url, 
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+              $('#messageSuccess').fadeIn(1000);
+              $('#messageSuccess').fadeOut(1000);
+              console.log('Картинка успешно обновлена');
+            },
+            error: function(xhr, errmsg, err) {
+              console.log('Ошибка при обновлении картинки');
+            }
+          });
+
+          $('#modalUpdatePhoto').modal('hide');
+
+          cropper.destroy();
+
+          previewImage.attr('src', '');
+          previewImage.prop("hidden", true);
+
+          imageInput.val(''); 
+          imageInput.prev('label').removeAttr("hidden");
+          deleteButton.prop("hidden", true);
+        });
+      });
+    };
+    
+    reader.readAsDataURL(file);
+  });
+
+  deleteButton.on('click', function() {
+
+    cropper.destroy();
+    cropper = null;
+
+    previewImage.attr('src', '');
+    previewImage.prop("hidden", true);
+
+    imageInput.val(''); 
+    imageInput.prev('label').removeAttr("hidden");
+    deleteButton.prop("hidden", true);
+  });
+});
+
+// Update profile
+$(document).ready(() => {
+  
+  $('#updateProfile').on('click', (e) => {
+    e.preventDefault();
+
+    
+    const firstname = $('#userFirstName').val();
+    const lastname = $('#userLastName').val();
+    const url = $('#updateProfile').data("url");
+    
+    $.ajax({
+      headers: {
+        "X-CSRFToken": csrfToken
+      },
+      url: url, 
+      type: 'POST',
+      data: {
+        firstname,
+        lastname
+      },
+      success: (response) => {
+        $('#messageSuccess').fadeIn(1000);
+        $('#messageSuccess').fadeOut(1000);
+        console.log('Профиль успешно обновлен');
+      },
+      error: (xhr, errmsg, err) => {
+        
+        console.log('Ошибка при обновлении профиля');
+      }
+    });
+  });
+});

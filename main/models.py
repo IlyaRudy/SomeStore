@@ -6,16 +6,22 @@ from django.utils.text import slugify
 from django.contrib.auth.models import AbstractUser
 
 
+
 def upload_to(instance, filename):
     return 'products/{0}/{1}/{2}/{3}'.format(instance.main_category, instance.main_subcategory, instance.title, filename)
 
 def upload_to_images(instance, filename):
     return 'products/{0}/{1}/{2}/{3}'.format(instance.product.main_category, instance.product.main_subcategory, instance.product.title, filename)
 
+def upload_users_image(instance, filename):
+    return f"accounts/{instance.username}/{filename}"
 
-class User(AbstractUser):
+class User(AbstractUser):    
     cart = models.JSONField(default=dict, blank=True, null=True)
     favorite = models.JSONField(default=dict, blank=True, null=True)
+    image = models.ImageField(upload_to=upload_users_image, default='accounts/Blank-Profile-Picture.avif')
+
+    
 
 
 class Product(models.Model):

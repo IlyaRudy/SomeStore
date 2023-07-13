@@ -12,6 +12,11 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AddField(
             model_name='user',
+            name='cart',
+            field=models.JSONField(blank=True, default=dict, null=True),
+        ),
+        migrations.AddField(
+            model_name='user',
             name='favorite',
             field=models.JSONField(blank=True, default=dict, null=True),
         ),

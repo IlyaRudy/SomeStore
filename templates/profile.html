@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+
+{% load static %}
+
+
+{% block content %}
+<div class="container my-5" id="profile">
+  <div class="row profile-info">
+
+    <div class="col-12 col-md-6">
+      <div class="avatar-image">
+        <img src="{{ user.image.url }}" alt="empty avatar" id="avatar">
+        <i class="fa-solid fa-camera fs-2" data-bs-toggle="modal" data-bs-target="#modalUpdatePhoto"></i>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-6 my-auto profile-info-rs ">
+
+        <div class="input-group my-4">
+          <div class="form-floating col-6 pe-2">
+            <input type="text" class="form-control" id="userFirstName" placeholder="Name" value="{{ user.first_name }}">
+            <label for="userFirstName">First name:</label>
+          </div>
+          <div class="form-floating col-6">
+            <input type="text" class="form-control" id="userLastName" placeholder="Surname" value="{{ user.last_name }}">
+            <label for="userLastName">Last name:</label>
+          </div>
+        </div>
+
+        <form class="form-floating my-4">
+          <input type="text" class="form-control" id="Login" placeholder="Login" value="{{ user.username }}" readonly>
+          <label for="Login">Login:</label>
+        </form>
+
+        <form class="form-floating my-4">
+          <input type="email" class="form-control" id="Email" placeholder="Email" value="{{ user.email }}" readonly>
+          <label for="Email">Email:</label>
+        </form>
+
+        <div class="col-12 d-flex justify-content-end">
+          <button type="submit" class="btn-update-profile" id="updateProfile" data-url="{% url 'accounts:update-profile' %}">Update profile</button>
+        </div>
+
+        <div class="col-12 alert alert-success" id="messageSuccess" role="alert">
+          Profile update success!
+        </div>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <h3 class="fw-bold">History</h3>
+    
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalUpdatePhoto" tabindex="-1" aria-labelledby="modalUpdatePhotoLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered position:relative modal-dialog-scrollable" id="modalUpdatePhotoDialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="modalUpdatePhotoLabel">Update profile photo</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body position-relative">
+          <label for="inputphoto"><div class="btn-update-profile" id="">Upload photo</div></label>
+          <input id="inputphoto" type="file" name="photo" hidden>
+          <img id="previewImage" src="" alt="Preview Image" hidden>
+          <i class="fa-solid fa-trash" id="deleteImage" hidden></i>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-update-profile" id="updatePhoto" data-url="{% url 'accounts:update-avatar' %}">Update photo</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
