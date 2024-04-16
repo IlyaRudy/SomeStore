@@ -4,8 +4,7 @@ Welcome! This is my repository dedicated to the development of an online store. 
 
 ## Project Description
 
-The goal of this project is to develop a fully functional online store using the Django framework. The website is currently under development, but I would like to present it to potential employers to demonstrate my skills and potential.
-
+The goal of this project is to develop a fully functional online store using the Django framework.
 ### Features
 
 - Basic templates have been developed for the homepage, categories, subcategories, and product pages.
