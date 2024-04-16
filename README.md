@@ -6,7 +6,7 @@ Welcome! This is my repository dedicated to the development of an online store. 
 
 The goal of this project is to develop a fully functional online store using the Django framework. The website is currently under development, but I would like to present it to potential employers to demonstrate my skills and potential.
 
-### Current Features
+### Features
 
 - Basic templates have been developed for the homepage, categories, subcategories, and product pages.
 - The Django framework is utilized for creating models for categories, subcategories, and products.
@@ -15,16 +15,6 @@ The goal of this project is to develop a fully functional online store using the
 - **Product Search**: Implement a search functionality that allows users to quickly find desired products.
 - **Proper Product Categorization**: Enhance the display of products based on selected categories and subcategories.
 - **Reviews Section**: Create a reviews section where users can leave their feedback and reviews for products.
-
-### Future Development Plans
-
-In the further development of my online store, I plan to implement the following features:
-- **User Profile Page**: Develop a user profile page where users can edit their profile information and view their purchase history.
-- **Shopping Cart and Payment**: Implement a shopping cart functionality for adding products and enable payment options through web services.
-- **Background Tasks with Celery**: Integrate background tasks using Celery for handling asynchronous tasks such as notifications and processing long-running operations.
-- **Logging**: Add logging mechanisms to track important events, errors, and activities within the website.
-
-These plans reflect my vision for the continuous improvement and expansion of the online store project. I look forward to making significant progress and delivering a robust and user-friendly e-commerce solution.
 
 ## Screenshots
 ### Homepage
